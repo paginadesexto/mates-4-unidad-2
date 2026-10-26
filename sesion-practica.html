@@ -1,0 +1,827 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Sesión práctica 4.º Primaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* One worksheet for three uses: on screen as an interactive sheet (build with regletas and cubes,
+   roll the die, check answers), on the digital board one block at a time, and on paper with the
+   static drawings. Regletas keep their distinct colours, but the text only names values. */
+:root{
+  --bg:#eef1f6;--paper:#ffffff;--ink:#1d2433;--muted:#5b6478;--line:#c9d0dd;--line-soft:#e3e7ef;
+  --accent:#2f5bd3;--accent-ink:#ffffff;--tint:#eaf0fd;--ok:#1e7a4a;--bad:#b3261e;
+  --u:clamp(15px,3.4vw,28px);
+  --radius:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f141d;--paper:#161c28;--ink:#e6eaf2;--muted:#9aa4b8;--line:#3a4459;--line-soft:#262e3f;
+    --accent:#7b9cff;--accent-ink:#0f141d;--tint:#1c2540;--ok:#5fd39a;--bad:#ff8a80;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f141d;--paper:#161c28;--ink:#e6eaf2;--muted:#9aa4b8;--line:#3a4459;--line-soft:#262e3f;
+  --accent:#7b9cff;--accent-ink:#0f141d;--tint:#1c2540;--ok:#5fd39a;--bad:#ff8a80;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.5;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:1.2rem 2.4rem;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,[contenteditable]:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* Toolbar (screen only) */
+.toolbar{max-width:860px;margin:0 auto 1rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.toolbar .hint{color:var(--muted);font-size:.95rem}
+.tools{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.btn{min-height:44px;padding:.45rem 1rem;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);font-weight:700}
+.btn.small{min-height:36px;padding:.25rem .7rem;font-size:.92rem}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.timer{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:10px;padding:.3rem .6rem;background:var(--paper)}
+.tval{font-weight:700;font-variant-numeric:tabular-nums;font-size:1.1rem}
+.tnow{color:var(--muted);font-size:.92rem}
+.timer.late{border-color:var(--bad)}
+.timer.late .tval{color:var(--bad)}
+
+/* The worksheet */
+.sheet{max-width:860px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:clamp(1.1rem,3.5vw,2.2rem);box-shadow:0 1px 2px rgba(20,30,50,.06)}
+.head{display:grid;gap:1rem;padding-bottom:1.2rem;border-bottom:2px solid var(--ink)}
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.title{font-size:clamp(1.7rem,4.5vw,2.4rem);letter-spacing:-.01em;margin-top:.2rem}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem 1.2rem}
+.field label{display:block;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:.15rem}
+.wline{min-height:2.1rem;border-bottom:1.5px solid var(--ink);padding:.15rem .2rem;outline:none;min-width:0;overflow-wrap:anywhere}
+.wline:empty::before{content:"\00a0"}
+.wline.tall{min-height:3.4rem}
+
+.mat{display:grid;gap:1rem;grid-template-columns:1fr 1fr;margin-top:1.2rem}
+@media (max-width:640px){ .mat{grid-template-columns:1fr} }
+.box{border:1px solid var(--line-soft);border-radius:var(--radius);padding:1rem 1.1rem;min-width:0}
+.box h2{font-size:1.05rem;margin-bottom:.5rem}
+.box ul{margin:0;padding-left:1.2rem}
+.box li{margin:.15rem 0}
+.roles{display:grid;gap:.4rem}
+.role{display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:start}
+.role b{color:var(--accent)}
+.note{color:var(--muted);font-size:.95rem;margin-top:.5rem}
+
+/* Blocks */
+.reto{margin-top:1.6rem;padding-top:1.4rem;border-top:1px solid var(--line-soft);min-width:0}
+.reto-head{display:flex;gap:.9rem;align-items:baseline;flex-wrap:wrap}
+.num{display:inline-grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:700;flex:none}
+.reto h2{font-size:clamp(1.3rem,3vw,1.6rem)}
+.time{font-size:.88rem;font-weight:700;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.reto .mats{margin:.6rem 0 0;color:var(--muted);font-size:.98rem}
+.steps{margin:.9rem 0 0;padding-left:1.4rem;display:grid;gap:.35rem}
+.hintrow{margin-top:.7rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-start}
+.hintbox{color:var(--muted);font-size:.95rem;padding:.35rem .7rem;border-left:3px solid var(--accent);background:var(--tint);border-radius:6px}
+.area{margin-top:1rem;padding:.9rem;border-radius:var(--radius);background:var(--tint);display:grid;gap:.9rem}
+.vlabel{font-size:.84rem;font-weight:700;color:var(--muted)}
+.ctrls{display:flex;gap:.5rem;flex-wrap:wrap}
+
+/* Regletas: one bar per piece, width = value. Captions give the value in words. */
+.r1{background:#ffffff;box-shadow:inset 0 0 0 1.5px #8a93a6}
+.r2{background:#d9352b}
+.r3{background:#8fd14f}
+.r4{background:#b35fd1}
+.r5{background:#f5d03b}
+.r6{background:#1d7f4e}
+.r7{background:#1f1f24}
+.r8{background:#8a5a2b}
+.r9{background:#2d63d9}
+.r10{background:#f08a24}
+.rods{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap}
+.rodbox{display:grid;justify-items:start;gap:.25rem}
+.rod{display:block;height:calc(var(--u) * 1.15);width:calc(var(--u) * var(--n));min-width:calc(var(--u) * .9);border-radius:4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.r1.rod{box-shadow:inset 0 0 0 1.5px #8a93a6}
+.rv{font-size:.8rem;font-weight:700;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* Builder: pick regletas, they line up in the active row and the total updates */
+.builder{display:grid;gap:.7rem}
+.palette{display:flex;gap:.5rem;flex-wrap:wrap}
+.pal-btn{display:inline-flex;align-items:center;gap:.45rem;min-height:44px;padding:.3rem .6rem;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;font-size:.95rem}
+.pal-rod{display:inline-block;height:.85rem;width:calc(var(--n) * .42rem);border-radius:3px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18)}
+.r1.pal-rod{box-shadow:inset 0 0 0 1.5px #8a93a6}
+.row{display:grid;gap:.5rem;padding:.6rem .7rem;border:1.5px dashed var(--line);border-radius:12px;background:var(--paper);min-width:0}
+.row.active{border:2px solid var(--accent)}
+.row-head{display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:baseline}
+.rowsum{font-weight:700;font-variant-numeric:tabular-nums}
+.pieces{display:flex;align-items:flex-end;gap:6px;flex-wrap:wrap;min-height:calc(var(--u) * 1.4)}
+.piece{display:grid;justify-items:start;gap:.2rem;padding:0;border:0;background:none;min-width:0}
+.piece .rod{cursor:pointer}
+.piece.static{cursor:default}
+.piece .rv{color:var(--ink)}
+.empty{color:var(--muted);font-size:.92rem}
+
+/* Cubes: towers of 10 and loose cubes of value 1 */
+.cubegrid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cubebox{display:grid;gap:.5rem;min-width:0;padding:.6rem .7rem;border-radius:12px;background:var(--paper);border:1px solid var(--line-soft)}
+.cubes-live{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;min-height:calc(var(--u) * 1.5)}
+.tower{display:grid;gap:3px}
+.tower i,.loose i{display:block;width:calc(var(--u) * .62);height:calc(var(--u) * .62);border-radius:3px;background:var(--accent);box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.loose{display:flex;flex-wrap:wrap;gap:3px;max-width:calc(var(--u) * 3.6);align-content:flex-end}
+.cubes{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.tlabel{font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Race */
+.race{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.die{width:3.4rem;height:3.4rem;border-radius:12px;border:2px solid var(--ink);display:grid;place-items:center;font-size:1.7rem;font-weight:700;background:var(--paper);font-variant-numeric:tabular-nums}
+.race-main{display:grid;gap:.5rem;min-width:0;flex:1 1 220px}
+.track{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:.9rem}
+.track th,.track td{border:1px solid var(--line);padding:.3rem .5rem;text-align:left;min-width:0}
+.track th{font-size:.84rem;color:var(--muted);font-weight:700}
+.track td{height:2.2rem}
+.msg{font-weight:700;min-height:1.5rem}
+.msg.ok{color:var(--ok)}
+.msg.bad{color:var(--bad)}
+
+/* Checks: type the answer, the page says whether it is right */
+.checks{display:grid;gap:.6rem}
+.chk{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.chk span:first-child{min-width:9ch;font-weight:700}
+.chk input{width:7rem;min-height:44px;padding:.3rem .5rem;border:1.5px solid var(--ink);border-radius:8px;background:var(--paper);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.chk input.ok{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+.chk input.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+.mark{font-weight:700;font-size:.95rem}
+.mark.ok{color:var(--ok)}
+.mark.bad{color:var(--bad)}
+
+/* Open-ended picks */
+.pick{display:flex;gap:.45rem;flex-wrap:wrap}
+.pick-btn{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:.3rem .6rem;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);font-weight:700}
+.pick-btn[aria-pressed="true"]{border:2px solid var(--accent);background:var(--tint)}
+.dot{display:inline-block;width:.85rem;height:.85rem;border-radius:3px}
+.dot.r1{box-shadow:inset 0 0 0 1.5px #8a93a6}
+.found{margin:0;padding-left:1.4rem;display:grid;gap:.2rem;font-variant-numeric:tabular-nums}
+
+.write{margin-top:.9rem;display:grid;gap:.5rem}
+.write .eq{display:flex;gap:.5rem 1rem;flex-wrap:wrap;align-items:baseline;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.q{margin-top:.8rem;font-weight:700}
+.wline.answer{min-height:2.6rem}
+
+/* Teacher notes */
+.teacher{margin-top:1.6rem;border:1.5px dashed var(--line);border-radius:var(--radius);padding:.8rem 1rem;background:var(--paper)}
+.teacher summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.teacher h3{font-size:1rem;margin:1rem 0 .4rem}
+.teacher ol,.teacher ul{margin:.4rem 0 0;padding-left:1.3rem;display:grid;gap:.35rem}
+.teacher table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.92rem}
+.teacher th,.teacher td{border:1px solid var(--line-soft);padding:.35rem .5rem;text-align:left;vertical-align:top}
+.teacher th{color:var(--muted)}
+
+/* Paper-only drawings and screen-only controls */
+.print-only{display:none}
+
+/* Board mode: one block at a time, larger type, used on the digital board */
+.board-nav{display:none;max-width:860px;margin:0 auto .8rem;align-items:center;justify-content:space-between;gap:.6rem}
+body.board .board-nav{display:flex}
+body.board .sheet{font-size:19px}
+body.board .reto{display:none;margin-top:0;border-top:0;padding-top:0}
+body.board .reto.active{display:block}
+body.board .reto h2{font-size:clamp(1.6rem,4vw,2.2rem)}
+body.board .rod{height:calc(var(--u) * 1.5)}
+body.board .head,body.board .mat,body.board .teacher{display:none}
+.counter{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Printing: the worksheet on paper, no controls, no solutions */
+@media print{
+  body{background:#fff;padding:0;font-size:12pt}
+  .toolbar,.board-nav,.teacher,.screen-only{display:none!important}
+  .print-only{display:block}
+  .sheet{border:0;box-shadow:none;max-width:none;padding:0}
+  .reto{margin-top:.9rem;padding-top:.8rem;break-inside:avoid;page-break-inside:avoid}
+  .reto-head,.reto h2,.q{break-after:avoid}
+  .wline.tall{min-height:2.2rem}
+  .steps{margin-top:.5rem;gap:.15rem}
+  .area{margin-top:.6rem;padding:.6rem}
+  .visual{margin-top:.6rem;padding:.6rem}
+  .write{margin-top:.5rem}
+  .track td{height:1.8rem}
+  .track{table-layout:fixed;width:100%}
+  .sheet,.reto,.print-only{max-width:100%;width:100%}
+  .head{padding-bottom:.8rem}
+  .mat{margin-top:.8rem}
+  body{font-size:11pt}
+  .wline,.chk input,.track td,.track th{border-color:#000}
+  .reto .mats{color:#333}
+  .area,.visual{break-inside:avoid}
+  .visual{background:none;border:1px solid #bbb;margin-top:1rem;padding:.9rem;border-radius:var(--radius)}
+  :root{--accent:#2f5bd3;--tint:#fff}
+}
+</style>
+
+<div class="toolbar screen-only">
+  <span class="hint">Sesión práctica · 45 minutos</span>
+  <div class="tools">
+    <div class="timer" aria-label="Cronómetro de la sesión">
+      <span class="tval" id="tval">00:00 / 45:00</span>
+      <span class="tnow" id="tnow"></span>
+      <button class="btn small" id="tbtn">Iniciar</button>
+      <button class="btn small" id="treset">Reiniciar</button>
+    </div>
+    <button class="btn" id="boardBtn" aria-pressed="false">Modo pizarra</button>
+    <button class="btn" id="solBtn" aria-pressed="false">Solucionario (docente)</button>
+  </div>
+</div>
+
+<div class="board-nav screen-only">
+  <button class="btn" id="prevBtn">Anterior</button>
+  <span class="counter" id="counter">1 / 9</span>
+  <button class="btn primary" id="nextBtn">Siguiente</button>
+</div>
+
+<main class="sheet" id="sheet">
+  <header class="head">
+    <div>
+      <p class="kicker">CEIP Buenaventura González · Matemáticas · Unidad 2</p>
+      <h1 class="title">Sesión práctica · 4.º de Primaria</h1>
+    </div>
+    <div class="fields">
+      <div class="field"><label for="f2">Fecha</label><div id="f2" class="wline" contenteditable="true"></div></div>
+      <div class="field" style="grid-column:1/-1"><label for="f3">Integrantes</label><div id="f3" class="wline" contenteditable="true"></div></div>
+    </div>
+  </header>
+
+  <section class="mat">
+    <div class="box">
+      <h2>Material por grupo</h2>
+      <ul>
+        <li>Policubos: torres de valor 10 y cubos sueltos de valor 1</li>
+        <li>Regletas: un juego, de valores del 1 al 10</li>
+        <li>Un dado (del 1 al 6)</li>
+        <li>Esta ficha</li>
+      </ul>
+      <p class="note">Las regletas son de distintos colores. Fijaos en el valor de cada pieza, no en su color.</p>
+    </div>
+    <div class="box">
+      <h2>Cómo trabajamos</h2>
+      <ul>
+        <li>Todos hacemos todas las tareas: construir, anotar, comprobar y explicar.</li>
+        <li>Antes de escribir una respuesta, la comprueba todo el grupo.</li>
+        <li>Si alguien no lo entiende, el grupo se lo explica hasta que lo entienda todo el mundo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div id="retos"></div>
+
+  <details class="teacher" id="teacher">
+    <summary>Guía del docente (no sale en la impresión ni en el modo pizarra)</summary>
+
+    <h3>Cronograma de 45 minutos</h3>
+    <ol>
+      <li>0–3 min · Calentamiento: ranas saltarinas (suma con dos saltos y propiedad conmutativa).</li>
+      <li>3–7 min · Cambiar el orden (propiedad conmutativa).</li>
+      <li>7–11 min · Agrupar de otra forma (propiedad asociativa).</li>
+      <li>11–19 min · Carrera hasta 30 (juego por turnos con dado).</li>
+      <li>19–26 min · Estimar con torres (redondeo y comprobación).</li>
+      <li>26–32 min · Operaciones combinadas (paréntesis).</li>
+      <li>32–40 min · Reto abierto: todas las formas (problema con varias soluciones).</li>
+      <li>40–45 min · Para terminar (metacognición).</li>
+      <li>Si sobra tiempo: ampliación de quitar cubos.</li>
+    </ol>
+
+    <h3>Metodología</h3>
+    <ul>
+      <li>Calentamiento con instrucción directa muy breve: cada pieza tiene un valor.</li>
+      <li>Trabajo cooperativo global: todos hacen todas las tareas y cada respuesta se acuerda en grupo.</li>
+      <li>Gamificación en la carrera (turnos, meta y regla de pérdida de turno).</li>
+      <li>Aprendizaje basado en problemas en el reto abierto: hay varias soluciones y el grupo debe demostrar que no falta ninguna.</li>
+    </ul>
+
+    <h3>Evaluación</h3>
+    <p>Instrumento principal: lista de observación por grupo en el aula, con la escala de la unidad (No conseguido, Conseguido, Bien, Notable, Sobresaliente). Complementos: las respuestas comprobadas de la ficha y la autoevaluación de «Para terminar».</p>
+    <table>
+      <thead><tr><th>Criterio</th><th>Conseguido</th><th>Notable o Sobresaliente</th></tr></thead>
+      <tbody>
+        <tr><td>Relaciona el material con la operación</td><td>Usa el valor de las piezas para calcular.</td><td>Además, explica por qué el color no cambia el resultado.</td></tr>
+        <tr><td>Justifica la propiedad usada</td><td>Dice qué ha cambiado y qué no.</td><td>Aplica la misma idea a un caso nuevo.</td></tr>
+        <tr><td>Trabaja en equipo</td><td>Participa en todas las tareas y acuerda las respuestas con el grupo.</td><td>Ayuda a otro compañero a entender y a encontrar un error.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Solucionario</h3>
+    <ol id="sol"></ol>
+  </details>
+</main>
+
+<script>
+/* Date: the day the page is opened, in Spanish; the field stays editable */
+try { document.getElementById('f2').textContent = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
+
+/* ---------- Drawings used on paper (static) ---------- */
+const rods = (values) => `<div class="rods">${values.map(n => `<span class="rodbox"><span class="rod r${n}" style="--n:${n}" role="img" aria-label="regleta de valor ${n}"></span><span class="rv">valor ${n}</span></span>`).join('')}</div>`;
+const cubesStatic = (towers, loose) => {
+  const t = Array.from({ length: towers }, () => `<div class="tower">${'<i></i>'.repeat(10)}</div>`).join('');
+  const l = `<div class="loose">${'<i></i>'.repeat(loose)}</div>`;
+  return `<div class="cubes">${t}${loose ? l : ''}</div>`;
+};
+
+/* ---------- Builder: regletas that line up in rows ---------- */
+const BUILDERS = {};
+function buildHTML(id, cfg) {
+  BUILDERS[id] = { signed: !!cfg.signed, active: 0, rows: cfg.rows.map(name => ({ name, pieces: [] })) };
+  return `<div class="builder" data-id="${id}">
+    <div class="palette" role="group" aria-label="Regletas para añadir">
+      ${cfg.values.map(v => `<button class="pal-btn" data-v="${v}" aria-label="Añadir regleta de valor ${v}"><span class="pal-rod r${v}" style="--n:${v}"></span>valor ${v}</button>`).join('')}
+    </div>
+    ${cfg.rows.map((name, ri) => `
+    <div class="row${ri === 0 ? ' active' : ''}" data-row="${ri}">
+      <div class="row-head"><span class="vlabel">${name}</span><span class="rowsum">Total: <b class="tot">0</b></span></div>
+      <div class="pieces"></div>
+      <div class="ctrls"><button class="btn small" data-act="undo">Quitar la última</button><button class="btn small" data-act="clear">Vaciar la fila</button></div>
+    </div>`).join('')}
+    <p class="note">Pulsa una regleta para añadirla a la fila marcada. Pulsa una fila para marcarla.${cfg.signed ? ' Pulsa una pieza de la fila para cambiar el salto entre adelante (+) y atrás (−).' : ''}</p>
+  </div>`;
+}
+function renderBuilder(id) {
+  const st = BUILDERS[id];
+  const box = document.querySelector(`.builder[data-id="${id}"]`);
+  box.querySelectorAll('.row').forEach((rowEl, ri) => {
+    const row = st.rows[ri];
+    rowEl.classList.toggle('active', ri === st.active);
+    let total = 0;
+    const pieces = row.pieces.map((p, i) => {
+      total += st.signed && p.s === '−' ? -p.v : p.v;
+      const label = st.signed ? `${p.s} ${p.v}` : `valor ${p.v}`;
+      return `<button class="piece" data-i="${i}" aria-label="${label}"><span class="rod r${p.v}" style="--n:${p.v}"></span><span class="rv">${label}</span></button>`;
+    }).join('');
+    rowEl.querySelector('.pieces').innerHTML = pieces || '<span class="empty">Fila vacía</span>';
+    rowEl.querySelector('.tot').textContent = total;
+  });
+}
+
+/* ---------- Cubes: builds towers and loose cubes toward a number ---------- */
+const CUBES = {};
+function cubeBoxHTML(id, n) {
+  CUBES[id] = { n, t: 0, l: 0 };
+  return `<div class="cubebox" data-id="${id}">
+    <p class="vlabel">Construid el ${n}</p>
+    <div class="cubes-live"></div>
+    <p class="tlabel">Torres de valor 10: <b class="ct">0</b> · Cubos de valor 1: <b class="cl">0</b> · Total: <b class="cs">0</b></p>
+    <div class="ctrls">
+      <button class="btn small" data-cube="t">+ torre de valor 10</button>
+      <button class="btn small" data-cube="l">+ cubo de valor 1</button>
+      <button class="btn small" data-cube="x">Vaciar</button>
+    </div>
+    <p class="mark" aria-live="polite"></p>
+  </div>`;
+}
+function renderCube(id) {
+  const st = CUBES[id];
+  const box = document.querySelector(`.cubebox[data-id="${id}"]`);
+  const towers = Array.from({ length: st.t }, () => `<div class="tower">${'<i></i>'.repeat(10)}</div>`).join('');
+  box.querySelector('.cubes-live').innerHTML = towers + (st.l ? `<div class="loose">${'<i></i>'.repeat(st.l)}</div>` : '');
+  box.querySelector('.ct').textContent = st.t;
+  box.querySelector('.cl').textContent = st.l;
+  const total = st.t * 10 + st.l;
+  box.querySelector('.cs').textContent = total;
+  const mark = box.querySelector('.mark');
+  mark.className = 'mark';
+  if (total === st.n) { mark.textContent = `Correcto: ${st.n} construido.`; mark.classList.add('ok'); }
+  else if (total > st.n) { mark.textContent = 'Os habéis pasado: quitad algún cubo.'; mark.classList.add('bad'); }
+  else mark.textContent = '';
+}
+
+/* ---------- Race: die, one regleta of each value, lost turn if repeated ---------- */
+const RACE = { turn: 0, total: 0, used: new Set(), done: false };
+const GOAL = 30;
+function rollRace() {
+  if (RACE.done) return;
+  RACE.turn += 1;
+  const d = 1 + Math.floor(Math.random() * 6);
+  document.getElementById('die').textContent = d;
+  const tb = document.getElementById('ttb');
+  let regleta;
+  if (RACE.used.has(d)) {
+    regleta = 'Ya está en la fila: turno perdido';
+  } else {
+    RACE.used.add(d);
+    RACE.total += d;
+    regleta = `valor ${d}`;
+    document.getElementById('rpieces').insertAdjacentHTML('beforeend', `<span class="piece static"><span class="rod r${d}" style="--n:${d}"></span><span class="rv">valor ${d}</span></span>`);
+  }
+  tb.insertAdjacentHTML('beforeend', `<tr><td>${RACE.turn}</td><td>${d}</td><td>${regleta}</td><td>${RACE.total}</td></tr>`);
+  document.getElementById('rtot').textContent = RACE.total;
+  const msg = document.getElementById('rmsg');
+  if (RACE.total >= GOAL) {
+    RACE.done = true;
+    const extra = RACE.total - GOAL;
+    msg.className = 'msg ok';
+    msg.textContent = extra === 0 ? '¡Meta exacta!' : `¡Meta! Os habéis pasado ${extra}.`;
+  } else if (RACE.used.size === 6) {
+    RACE.done = true;
+    msg.className = 'msg bad';
+    msg.textContent = `Ya están todas las regletas: ${RACE.total}. Faltan ${GOAL - RACE.total} para 30.`;
+  } else {
+    msg.className = 'msg';
+    msg.textContent = '';
+  }
+  if (RACE.done) document.getElementById('rollBtn').disabled = true;
+}
+function resetRace() {
+  RACE.turn = 0; RACE.total = 0; RACE.used = new Set(); RACE.done = false;
+  document.getElementById('die').textContent = '–';
+  document.getElementById('ttb').innerHTML = '';
+  document.getElementById('rpieces').innerHTML = '';
+  document.getElementById('rtot').textContent = '0';
+  document.getElementById('rmsg').textContent = '';
+  document.getElementById('rollBtn').disabled = false;
+}
+
+/* ---------- Open-ended: pick three different regletas that add to 12 ---------- */
+const PICK = { sel: new Set(), found: new Set() };
+function pickSummary() {
+  const v = [...PICK.sel].sort((a, b) => a - b);
+  return v;
+}
+function checkPick() {
+  const msg = document.getElementById('pmsg');
+  const v = pickSummary();
+  if (v.length !== 3) { msg.className = 'msg bad'; msg.textContent = 'Elegid tres regletas distintas.'; return; }
+  const sum = v.reduce((a, b) => a + b, 0);
+  if (sum !== 12) { msg.className = 'msg bad'; msg.textContent = `La suma es ${sum}, no 12.`; return; }
+  const key = v.join('+');
+  if (PICK.found.has(key)) { msg.className = 'msg bad'; msg.textContent = 'Esa combinación ya está en la lista.'; return; }
+  PICK.found.add(key);
+  document.getElementById('found').insertAdjacentHTML('beforeend', `<li>${v.join(' + ')} = 12</li>`);
+  document.getElementById('fcount').textContent = PICK.found.size;
+  msg.className = 'msg ok';
+  msg.textContent = PICK.found.size === 7 ? 'Habéis encontrado las 7 combinaciones. ¿Cómo sabéis que no falta ninguna?' : 'Correcto. Buscad otra.';
+  PICK.sel.clear();
+  document.querySelectorAll('.pick-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+}
+
+/* ---------- Blocks ---------- */
+const RETOS = [
+  {
+    title: 'Calentamiento: ranas saltarinas', time: '3 min', min: 3,
+    mats: 'Regletas de valor 7 y de valor 5.',
+    steps: [
+      'La rana empieza en 0. Añadid la regleta de valor 7: es un salto hacia delante.',
+      'Añadid la regleta de valor 5, otro salto hacia delante. ¿Dónde acaba la rana?',
+      'Vaciad la fila y haced los mismos saltos en otro orden: primero 5 y después 7. ¿Dónde acaba ahora?'
+    ],
+    hint: 'Los saltos pueden hacerse en cualquier orden: la rana siempre llega al mismo sitio.',
+    interactive: () => buildHTML('ranas', { values: [7, 5], rows: ['Recorrido de la rana'] }),
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Saltos de la rana (de izquierda a derecha)</p>${rods([7, 5])}</div></div>`,
+    checks: [{ label: 'Adelante 7 y adelante 5', sol: 12 }, { label: 'Adelante 5 y adelante 7', sol: 12 }],
+    question: '¿Ha cambiado el lugar donde acaba la rana al cambiar el orden de los saltos? ¿Qué propiedad lo explica?',
+    lines: 1,
+    sol: '7 + 5 = 12 y 5 + 7 = 12. El orden de los saltos no cambia el resultado: es la propiedad conmutativa.'
+  },
+  {
+    title: 'Cambiar el orden', time: '4 min', min: 4,
+    mats: 'Regletas de valor 7 y de valor 5.',
+    steps: [
+      'En la Fila A, añadid primero la de valor 7 y después la de valor 5.',
+      'En la Fila B, añadid primero la de valor 5 y después la de valor 7.',
+      'Comparad las dos filas. ¿Son iguales?'
+    ],
+    hint: 'Fijaos en el total de cada fila, no en el orden en que habéis puesto las piezas.',
+    interactive: () => buildHTML('cambiar', { values: [7, 5], rows: ['Fila A', 'Fila B'] }),
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Fila A: valor 7 y valor 5</p>${rods([7, 5])}</div><div><p class="vlabel">Fila B: valor 5 y valor 7</p>${rods([5, 7])}</div></div>`,
+    checks: [{ label: '7 + 5', sol: 12 }, { label: '5 + 7', sol: 12 }],
+    question: '¿Qué ha cambiado al cambiar el orden? ¿Y el resultado?',
+    lines: 2,
+    sol: 'Las dos sumas dan 12. Al cambiar el orden de los sumandos, el resultado no cambia (propiedad conmutativa).'
+  },
+  {
+    title: 'Agrupar de otra forma', time: '4 min', min: 4,
+    mats: 'Regletas de valor 2, de valor 3 y de valor 4.',
+    steps: [
+      'En el Grupo 1, añadid las de valor 2, 3 y 4 en ese orden: juntad primero el 2 y el 3.',
+      'En el Grupo 2, añadid las de valor 2, 3 y 4, pero juntad primero el 3 y el 4.',
+      'Comparad los dos resultados.'
+    ],
+    hint: 'Agrupar no cambia la suma: el total de ambos grupos debe ser el mismo.',
+    interactive: () => buildHTML('agrupar', { values: [2, 3, 4], rows: ['Grupo 1', 'Grupo 2'] }),
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Las tres piezas</p>${rods([2, 3, 4])}</div></div>`,
+    checks: [{ label: '(2 + 3) + 4', sol: 9 }, { label: '2 + (3 + 4)', sol: 9 }],
+    question: '¿Cambia el resultado al agrupar de otra forma? ¿Por qué crees que pasa?',
+    lines: 2,
+    sol: 'Los dos resultados son 9. Agrupar de otra forma no cambia la suma (propiedad asociativa).'
+  },
+  {
+    title: 'Carrera hasta 30', time: '8 min', min: 8,
+    mats: 'Un juego de regletas (una de cada valor) y un dado del 1 al 6.',
+    steps: [
+      'Por turnos, en el sentido de las agujas del reloj, una persona pulsa «Lanzar el dado».',
+      'Se coge la regleta del valor que ha salido y se añade a la fila común. Si ya está puesta, se pierde el turno.',
+      'La tabla anota el total. El grupo gana cuando llega a 30 o más.',
+      'Si se pasan de 30, calculad cuánto se han pasado: total − 30.'
+    ],
+    hint: 'Los seis valores (6, 5, 4, 3, 2 y 1) suman 21. Con todas las regletas no se llega a 30.',
+    interactive: () => `<div class="area race">
+      <div class="die" id="die" aria-live="polite">–</div>
+      <div class="race-main">
+        <div class="ctrls"><button class="btn primary" id="rollBtn">Lanzar el dado</button><button class="btn small" id="resetRace">Empezar otra carrera</button></div>
+        <p>Total acumulado: <b id="rtot">0</b> de 30</p>
+        <div class="pieces" id="rpieces"></div>
+        <p class="msg" id="rmsg"></p>
+      </div>
+    </div>
+    <table class="track"><thead><tr><th>Turno</th><th>Dado</th><th>Regleta</th><th>Total</th></tr></thead><tbody id="ttb"></tbody></table>`,
+    visual: () => `<div class="print-only"><table class="track"><thead><tr><th>Turno</th><th>Dado</th><th>Regleta</th><th>Total</th></tr></thead><tbody>${Array.from({ length: 6 }, (_, k) => `<tr><td>${k + 1}</td><td></td><td></td><td></td></tr>`).join('')}</tbody></table></div>`,
+    checks: [],
+    question: '¿Cuántos turnos han hecho falta? ¿Cuánto os falta para 30, o cuánto os habéis pasado?',
+    lines: 1,
+    sol: 'Respuesta libre. Ejemplo: con los valores 6, 5, 4, 3, 2 y 1 se obtiene 21 y faltan 9, porque 30 − 21 = 9. Si el total pasa de 30, la diferencia es total − 30.'
+  },
+  {
+    title: 'Estimar con torres', time: '7 min', min: 7,
+    mats: 'Policubos: torres de valor 10 y cubos sueltos de valor 1.',
+    steps: [
+      'Construid el 47 y el 28 con torres y cubos sueltos.',
+      'Redondead 47 y 28 a la decena más cercana y escribid esos números.',
+      'Sumad los redondeados: es vuestra estimación. Después comparad con el total exacto.'
+    ],
+    hint: 'Para el 47, son 4 torres y 7 cubos sueltos. Un número cerca de 50 se redondea a 50.',
+    interactive: () => `<div class="cubegrid">${cubeBoxHTML('e47', 47)}${cubeBoxHTML('e28', 28)}</div>`,
+    visual: () => `<div class="area print-only"><div><p class="vlabel">El 47</p>${cubesStatic(4, 7)}<p class="tlabel">4 torres de valor 10 y 7 cubos de valor 1</p></div><div><p class="vlabel">El 28</p>${cubesStatic(2, 8)}<p class="tlabel">2 torres de valor 10 y 8 cubos de valor 1</p></div></div>`,
+    checks: [{ label: '47 redondeado', sol: 50 }, { label: '28 redondeado', sol: 30 }, { label: 'Estimación', sol: 80 }, { label: 'Total exacto', sol: 75 }],
+    question: '¿Se parecen la estimación y el total? ¿Por qué? Cuidado: 7 + 8 cubos sueltos forman una torre nueva.',
+    lines: 2,
+    sol: '47 → 50 y 28 → 30. Estimación: 80. Total exacto: 75. Se parecen porque la estimación se acerca al total real.'
+  },
+  {
+    title: 'Operaciones combinadas', time: '6 min', min: 6,
+    mats: 'Regletas de valor 9, de valor 1 y de valor 6.',
+    steps: [
+      'Calculad 9 − 1 + 6: en la Operación 1, añadid 9, después 1 (cambiadlo a −) y después 6.',
+      'Calculad 9 − (1 + 6): en la Operación 2, añadid 9, después 1 y 6, y cambiad el 1 y el 6 a −.',
+      'Comparad los resultados. ¿Dan lo mismo?'
+    ],
+    hint: 'Pulsad una pieza de la fila para cambiar su signo entre + y −.',
+    interactive: () => buildHTML('combinadas', { values: [9, 1, 6], rows: ['Operación 1', 'Operación 2'], signed: true }),
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Las tres piezas</p>${rods([9, 1, 6])}</div></div>`,
+    checks: [{ label: '9 − 1 + 6', sol: 14 }, { label: '9 − (1 + 6)', sol: 2 }],
+    question: '¿Dan lo mismo las dos operaciones? ¿Qué ha hecho el paréntesis?',
+    lines: 2,
+    sol: '9 − 1 + 6 = 14 y 9 − (1 + 6) = 2. No dan lo mismo. El paréntesis junta el 1 y el 6 y quita ese conjunto de la regleta de 9, así que el 1 y el 6 se restan de la misma vez.'
+  },
+  {
+    title: 'Reto abierto: todas las formas', time: '8 min', min: 8,
+    mats: 'Un juego de regletas (una de cada valor). Solo podéis usar tres regletas distintas en cada combinación.',
+    steps: [
+      'Elegid tres regletas distintas cuya suma sea 12 y marcadlas.',
+      'Pulsad «Comprobar combinación». Si es correcta, aparece en la lista.',
+      'Buscad todas las combinaciones posibles. El orden no cuenta: 1 + 2 + 9 y 9 + 2 + 1 son la misma.'
+    ],
+    hint: 'Empezad siempre por la regleta más pequeña posible: si empezáis por 1, ¿qué otras dos sumarían 11?',
+    interactive: () => `<div class="area">
+      <div class="pick" role="group" aria-label="Regletas para elegir">
+        ${[1,2,3,4,5,6,7,8,9,10].map(v => `<button class="pick-btn" data-v="${v}" aria-pressed="false"><span class="dot r${v}"></span>valor ${v}</button>`).join('')}
+      </div>
+      <div class="ctrls"><button class="btn primary" id="pickCheck">Comprobar combinación</button><button class="btn small" id="pickClear">Borrar selección</button></div>
+      <p class="msg" id="pmsg"></p>
+      <p>Combinaciones encontradas: <b id="fcount">0</b></p>
+      <ol class="found" id="found"></ol>
+    </div>`,
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Ejemplo: 1 + 4 + 7 = 12</p>${rods([1, 4, 7])}</div></div>`,
+    checks: [],
+    question: '¿Cuántas combinaciones hay en total? ¿Cómo sabéis que no os falta ninguna?',
+    lines: 3,
+    sol: 'Hay 7: 1 + 2 + 9, 1 + 3 + 8, 1 + 4 + 7, 1 + 5 + 6, 2 + 3 + 7, 2 + 4 + 6 y 3 + 4 + 5. Para no olvidar ninguna, se empieza siempre por el sumando más pequeño y se ordenan las combinaciones.'
+  },
+  {
+    title: 'Para terminar', time: '5 min', min: 5,
+    mats: 'Con tu grupo, sin material.',
+    steps: [
+      'Cada persona escribe una frase sobre lo que ha aprendido hoy.',
+      'El grupo cuenta al resto de la clase el resultado más difícil que ha resuelto.'
+    ],
+    hint: '',
+    interactive: () => '',
+    visual: () => '',
+    checks: [],
+    question: '¿Qué ha sido lo más útil para calcular con el material? ¿Qué pieza o paso te ha costado más?',
+    lines: 3,
+    sol: 'Respuesta libre. Se espera que citen el valor de las piezas, la propiedad usada o el paso del paréntesis.'
+  },
+  {
+    title: 'Ampliación: quitar cubos', time: 'Si sobra tiempo', min: 0,
+    mats: 'Policubos: construid 25 con torres de valor 10 y cubos de valor 1.',
+    steps: [
+      'Construid 25 cubos.',
+      'Quitad 14: una torre entera y cuatro cubos sueltos.',
+      'Contad los que quedan.'
+    ],
+    hint: 'Quitar una torre de valor 10 es lo mismo que restar 10.',
+    interactive: () => `<div class="cubegrid">${cubeBoxHTML('amp', 25)}</div>`,
+    visual: () => `<div class="area print-only"><div><p class="vlabel">Los 25 cubos</p>${cubesStatic(2, 5)}</div></div>`,
+    checks: [{ label: '25 − 14', sol: 11 }],
+    question: 'Escribid cómo lo habéis calculado sin contar uno a uno.',
+    lines: 2,
+    sol: '25 − 14 = 11. Otra forma: quitar primero 10 y después 4, es decir, 25 − 10 = 15 y 15 − 4 = 11.'
+  }
+];
+
+/* Render each block */
+const sheetRetos = document.getElementById('retos');
+const sol = document.getElementById('sol');
+RETOS.forEach((r, i) => {
+  const lines = Array.from({ length: r.lines }, () => `<div class="wline tall" contenteditable="true"></div>`).join('');
+  const mats = r.mats ? `<p class="mats"><b>Material:</b> ${r.mats}</p>` : '';
+  const steps = r.steps.length ? `<ol class="steps">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : '';
+  const hint = r.hint ? `<div class="hintrow screen-only"><button class="btn small" data-hint>Pista</button></div><p class="hintbox screen-only" hidden>${r.hint}</p>` : '';
+  const paperChecks = r.checks.length ? `<div class="print-only">${r.checks.map(c => `<p class="q">${c.label}: ____________</p>`).join('')}</div>` : '';
+  const checks = r.checks.length ? `<div class="checks screen-only">${r.checks.map((c, k) => `<label class="chk"><span>${c.label}:</span><input type="text" inputmode="numeric" data-sol="${c.sol}" aria-label="${c.label}"><span class="mark" aria-live="polite"></span></label>`).join('')}<div><button class="btn small" data-check>Comprobar respuestas</button></div></div>` : '';
+  const inter = r.interactive();
+  const interactive = inter ? `<div class="screen-only">${inter}</div>` : '';
+  sheetRetos.insertAdjacentHTML('beforeend', `
+    <section class="reto" data-i="${i}">
+      <div class="reto-head"><span class="num">${i + 1}</span><h2>${r.title}</h2><span class="time">${r.time}</span></div>
+      ${mats}
+      ${steps}
+      ${hint}
+      ${interactive}
+      ${r.visual()}
+      ${checks}
+      ${paperChecks}
+      <div class="write"><p class="q">${r.question}</p>${lines}</div>
+    </section>`);
+  sol.insertAdjacentHTML('beforeend', `<li><b>${r.title}:</b> ${r.sol}</li>`);
+});
+
+/* Builders and cube boxes start empty */
+['ranas', 'cambiar', 'agrupar', 'combinadas'].forEach(renderBuilder);
+['e47', 'e28', 'amp'].forEach(renderCube);
+
+/* One delegated handler for every control in the sheet */
+document.getElementById('sheet').addEventListener('click', (e) => {
+  const t = e.target;
+
+  const hintBtn = t.closest('[data-hint]');
+  if (hintBtn) {
+    const box = hintBtn.closest('.hintrow').nextElementSibling;
+    box.hidden = !box.hidden;
+    hintBtn.textContent = box.hidden ? 'Pista' : 'Ocultar pista';
+    return;
+  }
+
+  const checkBtn = t.closest('[data-check]');
+  if (checkBtn) {
+    checkBtn.closest('.checks').querySelectorAll('input[data-sol]').forEach(inp => {
+      const mk = inp.closest('.chk').querySelector('.mark');
+      const v = inp.value.trim().replace(',', '.');
+      const ok = v !== '' && Number(v) === Number(inp.dataset.sol);
+      inp.classList.toggle('ok', ok);
+      inp.classList.toggle('bad', !ok);
+      mk.className = 'mark ' + (ok ? 'ok' : 'bad');
+      mk.textContent = ok ? 'Correcto' : (v === '' ? 'Escribe el resultado' : 'Revisa la operación');
+    });
+    return;
+  }
+
+  const pal = t.closest('.pal-btn');
+  if (pal) {
+    const id = pal.closest('.builder').dataset.id;
+    const st = BUILDERS[id];
+    st.rows[st.active].pieces.push({ v: Number(pal.dataset.v), s: '+' });
+    renderBuilder(id);
+    return;
+  }
+
+  const pieceBtn = t.closest('.piece');
+  if (pieceBtn && pieceBtn.closest('.builder')) {
+    const builder = pieceBtn.closest('.builder');
+    const id = builder.dataset.id;
+    const st = BUILDERS[id];
+    const rowEl = pieceBtn.closest('.row');
+    const row = st.rows[Number(rowEl.dataset.row)];
+    const idx = Number(pieceBtn.dataset.i);
+    if (st.signed) row.pieces[idx].s = row.pieces[idx].s === '+' ? '−' : '+';
+    else row.pieces.splice(idx, 1);
+    st.active = Number(rowEl.dataset.row);
+    renderBuilder(id);
+    return;
+  }
+
+  const rowEl = t.closest('.builder .row');
+  if (rowEl) {
+    const id = rowEl.closest('.builder').dataset.id;
+    const st = BUILDERS[id];
+    const act = t.closest('[data-act]');
+    st.active = Number(rowEl.dataset.row);
+    if (act) {
+      const row = st.rows[st.active];
+      if (act.dataset.act === 'undo') row.pieces.pop();
+      if (act.dataset.act === 'clear') row.pieces = [];
+    }
+    renderBuilder(id);
+    return;
+  }
+
+  const cubeBtn = t.closest('[data-cube]');
+  if (cubeBtn) {
+    const id = cubeBtn.closest('.cubebox').dataset.id;
+    const st = CUBES[id];
+    const kind = cubeBtn.dataset.cube;
+    if (kind === 't' && st.t < 9) st.t += 1;
+    if (kind === 'l' && st.l < 9) st.l += 1;
+    if (kind === 'x') { st.t = 0; st.l = 0; }
+    renderCube(id);
+    return;
+  }
+
+  if (t.closest('#rollBtn')) { rollRace(); return; }
+  if (t.closest('#resetRace')) { resetRace(); return; }
+
+  const pick = t.closest('.pick-btn');
+  if (pick) {
+    const v = Number(pick.dataset.v);
+    if (PICK.sel.has(v)) PICK.sel.delete(v);
+    else if (PICK.sel.size < 3) PICK.sel.add(v);
+    pick.setAttribute('aria-pressed', String(PICK.sel.has(v)));
+    return;
+  }
+  if (t.closest('#pickCheck')) { checkPick(); return; }
+  if (t.closest('#pickClear')) {
+    PICK.sel.clear();
+    document.querySelectorAll('.pick-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    document.getElementById('pmsg').textContent = '';
+  }
+});
+
+/* Session timer: 45 minutes, suggests the current block */
+const tval = document.getElementById('tval');
+const tnow = document.getElementById('tnow');
+const tbtn = document.getElementById('tbtn');
+const timerBox = document.querySelector('.timer');
+let elapsedMs = 0, startedAt = null, tIv = null;
+const nowMs = () => elapsedMs + (startedAt ? Date.now() - startedAt : 0);
+const mmss = (ms) => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+function renderTimer() {
+  const ms = nowMs();
+  const min = ms / 60000;
+  tval.textContent = `${mmss(ms)} / 45:00`;
+  let acc = 0, idx = -1;
+  for (let i = 0; i < RETOS.length; i++) {
+    if (RETOS[i].min === 0) continue;
+    acc += RETOS[i].min;
+    if (min < acc) { idx = i; break; }
+  }
+  tnow.textContent = min >= 45 ? 'Tiempo de la sesión cumplido' : (idx >= 0 ? `Ahora: ${RETOS[idx].title}` : '');
+  timerBox.classList.toggle('late', min >= 45);
+}
+tbtn.addEventListener('click', () => {
+  if (startedAt) {
+    elapsedMs += Date.now() - startedAt;
+    startedAt = null;
+    clearInterval(tIv);
+    tbtn.textContent = 'Seguir';
+  } else {
+    startedAt = Date.now();
+    tIv = setInterval(renderTimer, 500);
+    tbtn.textContent = 'Pausar';
+  }
+  renderTimer();
+});
+document.getElementById('treset').addEventListener('click', () => {
+  clearInterval(tIv);
+  elapsedMs = 0; startedAt = null;
+  tbtn.textContent = 'Iniciar';
+  renderTimer();
+});
+renderTimer();
+
+/* Board mode: one block at a time */
+const body = document.body;
+const all = Array.from(document.querySelectorAll('.reto'));
+let cur = 0;
+const counter = document.getElementById('counter');
+function showTask(k) {
+  cur = Math.max(0, Math.min(all.length - 1, k));
+  all.forEach((el, i) => el.classList.toggle('active', i === cur));
+  counter.textContent = `${cur + 1} / ${all.length}`;
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === all.length - 1;
+  if (body.classList.contains('board')) window.scrollTo({ top: 0 });
+}
+const boardBtn = document.getElementById('boardBtn');
+boardBtn.addEventListener('click', () => {
+  const on = !body.classList.contains('board');
+  body.classList.toggle('board', on);
+  boardBtn.setAttribute('aria-pressed', String(on));
+  boardBtn.textContent = on ? 'Ver ficha completa' : 'Modo pizarra';
+  if (on) showTask(cur);
+  else all.forEach(el => el.classList.remove('active'));
+});
+document.getElementById('prevBtn').addEventListener('click', () => showTask(cur - 1));
+document.getElementById('nextBtn').addEventListener('click', () => showTask(cur + 1));
+
+/* Solucionario: visible on screen only when the teacher opens it */
+const solBtn = document.getElementById('solBtn');
+const teacher = document.getElementById('teacher');
+solBtn.addEventListener('click', () => {
+  teacher.open = !teacher.open;
+  solBtn.setAttribute('aria-pressed', String(teacher.open));
+  if (teacher.open) teacher.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+showTask(0);
+</script>

@@ -1,0 +1,998 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Matemáticas 4.º · Unidad 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a clean, neutral interface (white surfaces, navy text, fine borders) with colour used on
+   purpose: the brand blue for actions, and one accent per activity. Type: Plus Jakarta Sans. */
+:root{
+  --fs:18px;
+  --font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#f5f6f9;--surface:#ffffff;--surface-2:#f8f9fc;--paper:#f8f9fc;
+  --ink:#17213b;--ink-2:#3a4663;--muted:#667190;
+  --line:#e4e8f0;--line-strong:#c8cfdd;
+  --brand:#2b5fd9;--brand-deep:#2049b0;--brand-tint:#eaf0fd;
+  --top:#17213b;--top-ink:#ffffff;
+  --ok:#137a58;--ok-tint:#e7f5ef;
+  --bad:#c23b25;--bad-tint:#fdeeea;
+  --warn:#8a5a00;--warn-tint:#fbf3df;
+  --yellow:#e8a600;--yellow-tint:#fbf3df;--yellow-deep:#b07d00;
+  --coral:#e5573c;--coral-tint:#fdeeea;
+  --mint:#17a07a;--mint-deep:#137a58;--mint-tint:#e7f5ef;
+  --violet:#6a4fd8;--violet-tint:#eeeafc;
+  --pink:#d6457f;--pink-tint:#fbe9f1;
+  --sky:#eaf0fd;
+  --s1:#2b5fd9;--s2:#e5573c;
+  --g0:#b23a26;--g0t:#fdeeea;--g1:#8a5a00;--g1t:#fbf3df;--g2:#137a58;--g2t:#e7f5ef;--g3:#2049b0;--g3t:#eaf0fd;--g4:#5b3fd6;--g4t:#eeeafc;
+  --radius:16px;--radius-sm:10px;
+  --shadow:0 1px 2px rgba(23,33,59,.05),0 6px 18px rgba(23,33,59,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1426;--surface:#141d33;--surface-2:#1a2540;--paper:#1a2540;
+    --ink:#e9edf8;--ink-2:#c3cbe0;--muted:#97a2bf;
+    --line:#27324f;--line-strong:#3b4a6e;
+    --brand:#7ea4ff;--brand-deep:#5b87f0;--brand-tint:#1c2c52;
+    --top:#0a1020;--top-ink:#ffffff;
+    --ok:#5fd6a8;--ok-tint:#143a2e;--bad:#ff8a73;--bad-tint:#3d2420;--warn:#ffd466;--warn-tint:#352c12;
+    --yellow:#ffc32e;--yellow-tint:#352c12;--yellow-deep:#ffd45c;
+    --coral:#ff8a73;--coral-tint:#3d2420;
+    --mint:#3fcf9f;--mint-deep:#7fe6c2;--mint-tint:#143a2e;
+    --violet:#a894ff;--violet-tint:#272150;
+    --pink:#ff8cc4;--pink-tint:#3a2030;
+    --sky:#1c2c52;--s1:#7ea4ff;--s2:#ff8a73;
+    --g0:#ff9a84;--g0t:#3d2420;--g1:#ffd466;--g1t:#352c12;--g2:#7fe6c2;--g2t:#143a2e;--g3:#9fbcff;--g3t:#1c2c52;--g4:#c4b5ff;--g4t:#272150;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1426;--surface:#141d33;--surface-2:#1a2540;--paper:#1a2540;
+  --ink:#e9edf8;--ink-2:#c3cbe0;--muted:#97a2bf;
+  --line:#27324f;--line-strong:#3b4a6e;
+  --brand:#7ea4ff;--brand-deep:#5b87f0;--brand-tint:#1c2c52;
+  --top:#0a1020;--top-ink:#ffffff;
+  --ok:#5fd6a8;--ok-tint:#143a2e;--bad:#ff8a73;--bad-tint:#3d2420;--warn:#ffd466;--warn-tint:#352c12;
+  --yellow:#ffc32e;--yellow-tint:#352c12;--yellow-deep:#ffd45c;
+  --coral:#ff8a73;--coral-tint:#3d2420;
+  --mint:#3fcf9f;--mint-deep:#7fe6c2;--mint-tint:#143a2e;
+  --violet:#a894ff;--violet-tint:#272150;
+  --pink:#ff8cc4;--pink-tint:#3a2030;
+  --sky:#1c2c52;--s1:#7ea4ff;--s2:#ff8a73;
+  --g0:#ff9a84;--g0t:#3d2420;--g1:#ffd466;--g1t:#352c12;--g2:#7fe6c2;--g2t:#143a2e;--g3:#9fbcff;--g3t:#1c2c52;--g4:#c4b5ff;--g4t:#272150;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:1rem;line-height:1.55;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--top)}
+h1,h2,h3{font-family:var(--font);font-weight:700;line-height:1.2;letter-spacing:-.015em;margin:0;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+button:disabled{cursor:default}
+
+.ic{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
+.ic.fill{fill:currentColor}
+.scene{display:block;width:100%;height:auto}
+.deco{display:none}
+
+/* Shell */
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--top);color:var(--top-ink)}
+.top .wrap{display:flex;align-items:center;gap:1rem;min-height:60px;padding-block:.5rem;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:.65rem;background:none;border:0;color:inherit;padding:0;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+.logo svg{width:2rem;height:2rem;flex:none;border-radius:9px}
+.top-school{font-weight:500;color:#c9d3ec;font-size:.92rem}
+.sizes{display:flex;gap:.35rem;margin-left:auto}
+.top-btn{min-height:40px;min-width:44px;padding:.2rem .7rem;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;font-weight:600;font-size:.95rem}
+.top-btn:hover{background:rgba(255,255,255,.1)}
+.page{padding-block:1.4rem 2.6rem;flex:1}
+.foot{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding-block:1.1rem;background:var(--surface)}
+.foot b{color:var(--ink-2);font-weight:600}
+
+/* Shared */
+.kicker{font-size:.8rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.ink2{color:var(--ink-2)}
+.muted{color:var(--muted)}
+.bubble{display:inline-flex;align-items:center;gap:.5rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.3rem .85rem;font-weight:600;font-size:.95rem;color:var(--ink-2)}
+.bubble .fill{color:var(--yellow)}
+.bubble .ic{color:var(--ok)}
+
+/* Home hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:1.6rem;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(1.4rem,4vw,2.6rem);margin-top:.2rem;overflow:hidden}
+.hero h1{font-size:clamp(2rem,4.6vw,3rem);line-height:1.08;letter-spacing:-.025em;color:var(--ink);margin:.6rem 0 .9rem}
+.hero p.lead{font-size:1.1rem;color:var(--ink-2);max-width:40ch}
+.hero-art{position:relative;z-index:1;background:var(--sky);border-radius:12px;overflow:hidden}
+.chip{display:inline-flex;align-items:center;gap:.4rem;color:var(--brand);font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;padding:0}
+.hero-stats{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.2rem}
+.hero-meta{margin-top:1.2rem;font-weight:600;color:var(--ink);font-size:.98rem}
+@media (max-width:760px){ .hero{grid-template-columns:1fr} .hero-art{max-width:460px} }
+
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin:2.2rem 0 1rem;flex-wrap:wrap;padding-bottom:.7rem;border-bottom:1px solid var(--line)}
+.sec-h h2{font-size:1.4rem;color:var(--ink)}
+.sec-h .muted{font-size:.95rem}
+
+/* Activity cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(262px,1fr));gap:1rem}
+.card-act{display:flex;flex-direction:column;overflow:hidden;text-align:left;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--radius);padding:0;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.card-act:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+.card-act:active{transform:translateY(1px)}
+.card-act .art{background:color-mix(in srgb,var(--c) 10%,var(--surface));padding:.7rem .7rem 0}
+.card-act .art .scene{border-radius:10px 10px 0 0}
+.card-act .body{padding:1rem 1.15rem 1.15rem;display:flex;flex-direction:column;gap:.3rem;flex:1}
+.badge{display:inline-block;font-weight:700;font-size:.8rem;letter-spacing:.06em;color:var(--muted);font-variant-numeric:tabular-nums}
+.card-t{font-weight:700;font-size:1.12rem;line-height:1.25;color:var(--ink);margin-top:.1rem}
+.card-d{color:var(--ink-2);font-size:.95rem;line-height:1.45}
+.card-f{margin-top:auto;padding-top:.8rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-weight:600;color:var(--muted);font-size:.88rem;border-top:1px solid var(--line);margin-top:.7rem}
+
+/* Stars (only the flag icon is still used in the old list; kept hidden) */
+.stars{display:none}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:50px;padding:.55rem 1.15rem;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font-weight:600;font-size:1rem;box-shadow:0 1px 1px rgba(23,33,59,.04)}
+.btn:hover:not(:disabled){border-color:var(--brand);color:var(--brand)}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover:not(:disabled){background:var(--brand-deep);border-color:var(--brand-deep);color:#fff}
+.btn:disabled{opacity:.45}
+.actions{display:flex;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-top:1.4rem;align-items:center}
+.actions.center{justify-content:center}
+.crumb{margin-bottom:1rem}
+.crumb .btn{min-height:42px;padding:.3rem .9rem;font-size:.95rem;border-color:transparent;background:transparent;color:var(--ink-2)}
+.crumb .btn:hover:not(:disabled){background:var(--surface-2);color:var(--brand);border-color:var(--line)}
+
+/* Activity banner (quiz header with illustration) */
+.quiz{--c:#2b5fd9;--tint:#eaf0fd;--on:#fff}
+.banner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.75fr);gap:1.2rem;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:var(--radius);padding:1.2rem 1.4rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.banner h2{font-size:clamp(1.6rem,3.6vw,2.2rem);line-height:1.15;margin:.3rem 0 .4rem;color:var(--ink);letter-spacing:-.02em}
+.banner p.desc{color:var(--ink-2);font-size:1rem}
+.banner-art{border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--c) 10%,var(--surface))}
+@media (max-width:620px){ .banner{grid-template-columns:1fr} .banner-art{order:-1;max-width:260px} }
+
+/* Progress */
+.segs{display:grid;grid-template-columns:repeat(var(--n,9),minmax(0,1fr));gap:4px;margin:0 0 1rem}
+.segs i{height:6px;border-radius:3px;background:var(--line)}
+.segs i.on{background:var(--c)}
+.segs i.cur{background:color-mix(in srgb,var(--c) 45%,var(--line))}
+
+/* Sheet and question */
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(1.2rem,3vw,2rem);box-shadow:var(--shadow)}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.pill-s{display:inline-flex;align-items:center;gap:.4rem;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);border-radius:8px;padding:.25rem .7rem;font-weight:600;font-size:.9rem}
+.pill-s .fill{color:var(--yellow)}
+.q{font-weight:600;font-size:clamp(1.3rem,3.2vw,1.75rem);line-height:1.35;margin:0 0 1.2rem;color:var(--ink);text-wrap:pretty;letter-spacing:-.01em}
+.q b{font-weight:700;color:var(--brand);background:none;padding:0}
+.q i{font-style:normal;color:var(--muted);font-size:.8em}
+
+/* Choices */
+.opts{display:grid;gap:.5rem}
+.opt{display:flex;align-items:center;gap:.85rem;width:100%;min-height:60px;padding:.55rem .9rem;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-sm);color:var(--ink);font-weight:600;font-size:1.08rem;text-align:left;transition:border-color .12s ease,background .12s ease}
+.opt:not(:disabled):hover{border-color:var(--brand);background:var(--brand-tint)}
+.opt:disabled{cursor:default}
+.opt .letter{width:2.1rem;height:2.1rem;flex:none;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.opt.right{background:var(--ok-tint);border-color:var(--ok)}
+.opt.right .letter{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{background:var(--bad-tint);border-color:var(--bad);color:var(--bad)}
+.opt.wrong .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt:disabled:not(.right):not(.wrong){opacity:.5}
+.shake{animation:shake .38s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+/* Answer line and keypad */
+.answer{display:flex;align-items:flex-end;justify-content:center;gap:.6rem;min-height:5rem;max-width:460px;margin:.2rem auto 1.1rem;border-bottom:2px solid var(--line-strong);padding-bottom:.2rem;font-weight:700;font-size:clamp(2.4rem,8vw,3rem);line-height:1.1;font-variant-numeric:tabular-nums;color:var(--ink)}
+.answer .unit{font-size:1.3rem;color:var(--muted);font-weight:600;padding-bottom:.4rem}
+.answer .ph{color:var(--line-strong)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-width:460px;margin:0 auto}
+.key{min-height:62px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:1.6rem;font-weight:600;font-variant-numeric:tabular-nums}
+.key:hover:not(:disabled){border-color:var(--brand)}
+.key:not(:disabled):active{background:var(--surface-2)}
+.key.fn{background:var(--surface-2);color:var(--ink-2);font-size:1.15rem}
+.key.ok{background:var(--brand);border-color:var(--brand);color:#fff}
+.key:disabled{opacity:.45}
+
+/* Feedback */
+.fb{--fc:var(--ok);display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:start;margin-top:1.2rem;padding:.9rem 1rem;border-radius:var(--radius-sm);border-left:4px solid var(--fc);background:var(--ok-tint);font-size:1.02rem;line-height:1.5;color:var(--ink)}
+.fb[hidden]{display:none}
+.fb.bad{--fc:var(--bad);background:var(--bad-tint)}
+.fb.warn{--fc:var(--warn);background:var(--warn-tint)}
+.fb .fi{width:2.1rem;height:2.1rem;border-radius:8px;display:grid;place-items:center;background:var(--fc);color:#fff}
+.fb .why{display:block;color:var(--ink-2);margin-top:.2rem}
+
+/* Result */
+.result{display:grid;gap:.6rem;justify-items:center;text-align:center}
+.result .res-art{width:min(300px,80%);border-radius:12px;overflow:hidden;background:var(--sky)}
+.res-h{font-size:clamp(1.6rem,4vw,2rem);color:var(--ink)}
+.res-score{font-size:1.4rem;font-weight:600;color:var(--ink)}
+
+/* Grades: No conseguido, Conseguido, Bien, Notable, Sobresaliente */
+.lv-0{--g:var(--g0);--gt:var(--g0t)}
+.lv-1{--g:var(--g1);--gt:var(--g1t)}
+.lv-2{--g:var(--g2);--gt:var(--g2t)}
+.lv-3{--g:var(--g3);--gt:var(--g3t)}
+.lv-4{--g:var(--g4);--gt:var(--g4t)}
+.grade{display:inline-flex;align-items:center;gap:.4rem;padding:.2rem .6rem;border-radius:6px;background:var(--gt);color:var(--g);font-weight:700;font-size:.88rem;line-height:1.3;white-space:nowrap}
+.grade .ic{width:1em;height:1em}
+.grade.big{font-size:1.25rem;padding:.4rem .9rem;border-radius:10px;gap:.55rem}
+.grade.big .ic{width:1.1em;height:1.1em}
+.scale{list-style:none;margin:1.2rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:6px;width:100%;max-width:640px}
+.scale li{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.6rem .3rem;border-radius:var(--radius-sm);background:var(--surface-2);color:var(--muted);font-weight:600;font-size:.84rem;text-align:center;line-height:1.2;border:1px solid var(--line);padding-inline:.2rem;hyphens:none}
+.scale li .ic{width:1.2rem;height:1.2rem}
+.scale li.on{background:var(--gt);color:var(--g);border-color:var(--g);font-weight:700}
+.blk-h{font-size:1.1rem;width:100%;max-width:640px;margin:1.6rem 0 .3rem;text-align:left}
+.blocks{list-style:none;margin:0;padding:0;width:100%;max-width:640px;display:grid;gap:.45rem}
+.blk{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:.6rem .85rem;text-align:left}
+.blk-name{flex:1 1 170px;font-weight:600;color:var(--ink)}
+.segs2{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:3px;flex:1 1 150px;min-width:110px}
+.segs2 i{height:8px;border-radius:4px;background:var(--line)}
+.segs2 i.ok{background:var(--ok)}
+.blk-n{font-weight:600;color:var(--ink-2);font-variant-numeric:tabular-nums;font-size:.92rem}
+
+/* Chart */
+.legend{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem}
+.legend span{display:inline-flex;align-items:center;gap:.45rem;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:.2rem .75rem;font-weight:600;font-size:.9rem;color:var(--ink-2)}
+.legend i{width:20px;height:5px;border-radius:99px;background:var(--c)}
+.legend i.dash{background:none;border-top:4px dashed var(--c);height:0}
+.ctab{width:100%;border-collapse:collapse;margin-top:.9rem;font-size:.92rem;font-variant-numeric:tabular-nums;text-align:center}
+.ctab th,.ctab td{padding:.4rem .25rem;border-bottom:1px solid var(--line)}
+.ctab th{font-weight:700;color:var(--ink-2)}
+.ctab th[scope=row]{text-align:left;white-space:nowrap}
+.ctab th i{display:inline-block;width:.8rem;height:.8rem;border-radius:3px;margin-right:.4rem;vertical-align:-.1rem}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart{width:100%;height:auto;display:block;max-height:360px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px}
+.chart .gl{stroke:var(--line);stroke-width:1.5}
+.chart .ax{fill:var(--muted);font-size:19px;font-weight:600;font-family:var(--font)}
+.chart .axt{fill:var(--ink-2);font-size:20px;font-weight:700;font-family:var(--font)}
+.chart .pt{cursor:pointer;stroke:var(--surface);stroke-width:3}
+.tip{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:2.6rem;margin:.7rem auto 0;max-width:480px;font-weight:600;font-size:1rem;border-radius:var(--radius-sm);padding:.45rem .8rem;background:var(--brand-tint);color:var(--ink)}
+.tip .ic{color:var(--brand)}
+
+/* Caminos que suman */
+.sumline{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
+.sumbig{font-weight:700;font-size:2rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.sumbig span{font-size:1rem;color:var(--muted);font-weight:600}
+.sum-msg{font-weight:600;font-size:.98rem;color:var(--ink-2);min-height:1.6em;text-align:right}
+.board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;max-width:500px;margin:1rem auto 0}
+.cell{position:relative;aspect-ratio:1/1;min-width:0;padding:0;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font-weight:700;font-size:clamp(1.3rem,4.6vw,1.8rem);font-variant-numeric:tabular-nums}
+.cell.in{background:var(--yellow-tint);border-color:var(--yellow)}
+.cell.start{background:var(--brand);border-color:var(--brand);color:#fff}
+.cell.end{background:var(--ok);border-color:var(--ok);color:#fff}
+.cell.next:not(:disabled){border:2px dashed var(--brand);color:var(--brand)}
+.cell .tag{position:absolute;left:0;right:0;bottom:5px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+
+/* Granja */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem 1.25rem;box-shadow:var(--shadow)}
+.panel-h{display:flex;gap:.7rem;align-items:center;margin-bottom:.9rem}
+.panel-h .num{width:2rem;height:2rem;border-radius:8px;background:var(--c);color:var(--on,#fff);display:grid;place-items:center;font-weight:700;font-size:.95rem;flex:none}
+.panel-h h2{font-size:1.2rem;color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:640px){ .two{grid-template-columns:1fr} }
+.stepper{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.round{width:3rem;height:3rem;border-radius:var(--radius-sm);border:1px solid var(--brand);background:var(--brand);color:#fff;display:grid;place-items:center;font-size:1.4rem;font-weight:600}
+.round:hover:not(:disabled){background:var(--brand-deep)}
+.round:active:not(:disabled){transform:translateY(1px)}
+.amount{min-width:5.2rem;text-align:center;font-weight:700;font-size:2rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.amount small{font-size:1rem;color:var(--muted);font-weight:600}
+.hint{color:var(--muted);font-weight:500;font-size:.95rem;margin-top:.7rem}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.6rem}
+.tile{display:grid;grid-template-columns:2.6rem minmax(0,1fr) auto;gap:.75rem;align-items:center;width:100%;padding:.6rem .8rem;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--surface);text-align:left;color:var(--ink)}
+.tile:hover{border-color:var(--brand)}
+.tile .ti{width:2.6rem;height:2.6rem;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);display:grid;place-items:center}
+.tile .t-name{display:block;font-weight:600;font-size:1rem;line-height:1.25}
+.tile .t-price{display:block;font-weight:500;font-size:.88rem;color:var(--muted)}
+.tile .chk{width:1.9rem;height:1.9rem;border-radius:8px;border:1px solid var(--line-strong);display:grid;place-items:center;color:#fff}
+.tile.on{border-color:var(--ok);background:var(--ok-tint)}
+.tile.on .chk{background:var(--ok);border-color:var(--ok)}
+.receipt{width:100%;border-collapse:collapse;font-size:.98rem;margin-top:.2rem}
+.receipt td{padding:.55rem .1rem;border-bottom:1px dashed var(--line-strong);vertical-align:top}
+.receipt td:last-child{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.receipt small{color:var(--muted);font-weight:500;font-size:.87rem}
+.receipt tr.total td{border-bottom:none;padding-top:.9rem;font-size:1.2rem;font-weight:700;color:var(--brand)}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:.7rem;margin-top:1rem;padding:.85rem 1rem;border-radius:var(--radius-sm);border-left:4px solid var(--fc);background:var(--ok-tint);--fc:var(--ok);font-size:1rem;color:var(--ink)}
+.verdict.bad{--fc:var(--bad);background:var(--bad-tint)}
+.verdict .vi{width:2rem;height:2rem;border-radius:8px;background:var(--fc);color:#fff;display:grid;place-items:center}
+.note{display:flex;gap:.6rem;align-items:center;margin-top:.8rem;font-weight:600;color:var(--warn)}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:52px;font-weight:600;font-size:1.02rem;color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;color:var(--brand);line-height:1;width:1.8rem;height:1.8rem;border-radius:8px;background:var(--brand-tint);display:grid;place-items:center;flex:none;font-weight:600}
+details[open] summary::after{content:"−"}
+details p{padding:0 0 1rem;color:var(--ink-2)}
+
+.bubble{cursor:pointer}
+.ctx{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:.9rem 1rem;margin-bottom:1.2rem}
+.ctx .kicker{margin-bottom:.2rem}
+.ctx-list{list-style:none;margin:.4rem 0 .7rem;padding:0}
+.ctx-list li{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.4rem 0;border-bottom:1px solid var(--line);font-size:.98rem}
+.ctx-list li:last-child{border-bottom:0}
+.ctx-list b{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.fx{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.25rem;min-height:132px;padding:1.2rem .8rem;text-align:center;font-weight:700;font-size:1.45rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.fx .eq{color:var(--muted);font-weight:600;font-size:1.05rem}
+.fx .cap{font-size:1rem;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.unit-final{display:grid;justify-items:center;gap:.5rem;margin-top:1.2rem;padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface-2);width:100%;max-width:520px}
+@media (max-width:640px){
+  .top-school{display:none}
+  .cards{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <button class="logo" data-go="home" aria-label="Ir al inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#2b5fd9"/><path d="M16 9.5v13M9.5 16h13" stroke="#fff" stroke-width="3.6" stroke-linecap="round"/></svg>
+      <span>Matemáticas 4.º</span>
+    </button>
+    <span class="top-school">CEIP Buenaventura González</span>
+    <div class="sizes">
+      <button class="top-btn" data-size="-2" aria-label="Texto más pequeño">A−</button>
+      <button class="top-btn" data-size="2" aria-label="Texto más grande">A+</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page" id="app"></main>
+
+<footer class="foot">
+  <div class="wrap">
+    Materiales elaborados por <b>Mati, Raquel y Ángel</b> · CEIP Buenaventura González · 4.º de Primaria · Octubre de 2026
+  </div>
+</footer>
+
+<script>
+/* ---------- Icons (stroke icons on a 24px grid) ---------- */
+const ICON = {
+  arrowLeft: '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  arrowRight: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+  alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  delete: '<path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="m18 9-6 6"/><path d="m12 9 6 6"/>',
+  undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/>',
+  trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+  flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  lightbulb: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  wheat: '<path d="M12 22V9"/><path d="M12 9c-2-1-3-3-3-5 2 0 3 2 3 5z"/><path d="M12 9c2-1 3-3 3-5-2 0-3 2-3 5z"/><path d="M12 15c-2-1-3-3-3-5 2 0 3 2 3 5z"/><path d="M12 15c2-1 3-3 3-5-2 0-3 2-3 5z"/>',
+  paw: '<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05C6.52 17.48 4.46 16.84 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>',
+  sprout: '<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>',
+  vase: '<path d="M9 3h6"/><path d="M10 3v3c-2 1-4 3-4 7 0 4 2.5 8 6 8s6-4 6-8c0-4-2-6-4-7V3"/>',
+  hand: '<path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/>',
+  route: '<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>',
+  list: '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>'
+};
+function ico(name, cls = '') {
+  return `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICON[name] || ''}</svg>`;
+}
+
+/* ---------- Activity art: short rule panels, never the answer ---------- */
+const fx = html => `<div class="fx">${html}</div>`;
+const SCENES = {
+  prop: () => fx('<span>a + b</span><span class="eq">=</span><span>b + a</span>'),
+  est: () => fx('<span>Redondea cada número</span><span class="cap">y después calcula</span>'),
+  comb: () => fx('<span>Paréntesis primero</span><span class="cap">luego, de izquierda a derecha</span>'),
+  prob: () => fx('<span>¿Qué dato falta?</span><span class="cap">Piensa antes de calcular</span>'),
+  graf: () => fx('<span>Lee el punto</span><span class="eq">→</span><span>día y altura</span>'),
+  cam: () => fx('<span>Llega a la meta</span><span class="eq">=</span><span>100</span>'),
+  granja: () => fx('<span>¿Cuánto paga cada alumno?</span><span class="cap">viaje, alojamiento y talleres</span>')
+};
+
+/* ---------- Helpers ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const BEST_KEY = 'mates4-u2-best';
+const SIZE_KEY = 'mates4-u2-size';
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const pad = n => String(n).padStart(2, '0');
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const bestAll = () => store.get(BEST_KEY, {});
+
+/* ---------- Text size ---------- */
+let fontPx = clamp(store.get(SIZE_KEY, 19), 16, 26);
+function setSize(px) {
+  fontPx = clamp(px, 16, 26);
+  document.documentElement.style.setProperty('--fs', fontPx + 'px');
+  store.set(SIZE_KEY, fontPx);
+}
+setSize(fontPx);
+
+const GRADES = [
+  { min: 0, label: 'No conseguido' },
+  { min: 50, label: 'Conseguido' },
+  { min: 65, label: 'Bien' },
+  { min: 75, label: 'Notable' },
+  { min: 90, label: 'Sobresaliente' }
+].map((g, k) => ({ ...g, key: k }));
+const UNIT = ['prop', 'est', 'comb', 'prob', 'graf', 'cam', 'granja'];
+
+function gradeOf(pct) {
+  let g = GRADES[0];
+  GRADES.forEach(x => { if (pct >= x.min) g = x; });
+  return g;
+}
+
+function recordActivity(id, pct) {
+  const best = bestAll();
+  const prev = best[id];
+  if (!prev || prev.pct == null || pct > prev.pct) {
+    best[id] = { pct, lvl: gradeOf(pct).key };
+    store.set(BEST_KEY, best);
+  }
+}
+
+function unitStatus() {
+  const best = bestAll();
+  const scored = UNIT.filter(id => best[id] && best[id].pct != null);
+  const complete = scored.length === UNIT.length;
+  const avg = complete ? scored.reduce((s, id) => s + best[id].pct, 0) / UNIT.length : null;
+  return { done: scored.length, complete, grade: complete ? gradeOf(avg) : null };
+}
+
+function gradePill(g, big = false) {
+  return `<span class="grade lv-${g.key}${big ? ' big' : ''}">${g.label}</span>`;
+}
+
+function gradeScale(k) {
+  return `<ol class="scale" aria-label="Escala de calificación">${GRADES.map(g => `<li class="lv-${g.key}${g.key === k ? ' on' : ''}">${g.label}</li>`).join('')}</ol>`;
+}
+
+/* ---------- Line chart data ---------- */
+const CHART = {
+  days: [0, 5, 10, 15, 20, 25],
+  series: [
+    { name: 'Aguacate', color: 'var(--s1)', vals: [0, 2, 8, 17, 32, 40], shape: 'circle', dash: false },
+    { name: 'Tomatera', color: 'var(--s2)', vals: [0, 4, 11, 17, 26, 31], shape: 'square', dash: true }
+  ]
+};
+
+function drawChart(el) {
+  const W = 640, H = 380, PL = 64, PR = 24, PT = 22, PB = 56, maxY = 45;
+  const X = d => PL + d / 25 * (W - PL - PR);
+  const Y = v => H - PB - v / maxY * (H - PT - PB);
+  let g = '';
+  for (let v = 0; v <= maxY; v += 5) {
+    g += `<line class="gl" x1="${PL}" x2="${W - PR}" y1="${Y(v)}" y2="${Y(v)}"/>`;
+    if (v % 10 === 0) g += `<text class="ax" x="${PL - 12}" y="${Y(v) + 7}" text-anchor="end">${v}</text>`;
+  }
+  CHART.days.forEach(d => { g += `<text class="ax" x="${X(d)}" y="${H - PB + 28}" text-anchor="middle">${d}</text>`; });
+  g += `<text class="axt" x="${(PL + W - PR) / 2}" y="${H - 8}" text-anchor="middle">Día</text>`;
+  g += `<text class="axt" transform="translate(18 ${(PT + H - PB) / 2}) rotate(-90)" text-anchor="middle">Altura (cm)</text>`;
+  CHART.series.forEach(se => {
+    const pts = se.vals.map((v, i) => `${X(CHART.days[i])},${Y(v)}`).join(' ');
+    g += `<polyline points="${pts}" fill="none" stroke="${se.color}" stroke-width="${se.dash ? 4 : 5}"${se.dash ? ' stroke-dasharray="12 8"' : ''} stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  // Squares first (underneath), circles on top, so a point is visible even when two plants are at the same height
+  const marks = [];
+  CHART.series.forEach(se => se.vals.forEach((v, i) => marks.push({ se, v, d: CHART.days[i] })));
+  marks.sort((a, b) => (a.se.shape === 'square' ? 0 : 1) - (b.se.shape === 'square' ? 0 : 1));
+  marks.forEach(({ se, v, d }) => {
+    const x = X(d), y = Y(v);
+    const shape = se.shape === 'square'
+      ? `<rect x="${x - 13}" y="${y - 13}" width="26" height="26" rx="5" fill="${se.color}" stroke="var(--surface)" stroke-width="3"/>`
+      : `<circle cx="${x}" cy="${y}" r="8" fill="var(--surface)" stroke="${se.color}" stroke-width="5"/>`;
+    g += `${shape}<circle class="hit" data-day="${d}" cx="${x}" cy="${y}" r="20"/>`;
+  });
+  const table = `<table class="ctab">
+      <tr><th scope="row">Día</th>${CHART.days.map(d => `<td>${d}</td>`).join('')}</tr>
+      ${CHART.series.map(se => `<tr><th scope="row"><i style="background:${se.color}"></i>${se.name}</th>${se.vals.map(v => `<td>${v} cm</td>`).join('')}</tr>`).join('')}
+    </table>`;
+  el.innerHTML = `
+    <div class="legend">${CHART.series.map(s => `<span><i class="${s.dash ? 'dash' : ''}" style="--c:${s.color}"></i>${s.name}: ${s.shape === 'square' ? 'cuadrado y línea discontinua' : 'círculo y línea continua'}</span>`).join('')}</div>
+    <svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico de líneas: altura del aguacate y de la tomatera según el día">${g}</svg>
+    <div class="tip" id="tip"><span>Toca un día del gráfico para ver la altura de las dos plantas.</span></div>
+    ${table}`;
+  el.querySelectorAll('.hit').forEach(p => p.addEventListener('click', () => {
+    const d = Number(p.dataset.day);
+    const parts = CHART.series.map(se => `${se.name} ${se.vals[CHART.days.indexOf(d)]} cm`);
+    const vs = CHART.series.map(se => se.vals[CHART.days.indexOf(d)]);
+    const same = vs[0] === vs[1] ? ' Las dos están a la misma altura.' : '';
+    el.querySelector('#tip span').textContent = `Día ${d}: ${parts.join(' · ')}.${same}`;
+  }));
+}
+
+/* ---------- Activities ---------- */
+
+const ACTS = [
+  {
+    id: 'prop', icon: 'route', c: '#7a5cff', t: '#ebe6ff', title: 'Propiedades de la suma',
+    desc: 'Cambia el orden o agrupa los sumandos: el resultado no cambia.',
+    items: [
+      { type: 'choice', q: 'Si <b>25 + 38 = 63</b>, ¿cuánto es <b>38 + 25</b>?', options: ['58', '63', '73'], a: 1,
+        why: 'Propiedad <b>conmutativa</b>: al cambiar el orden de los sumandos, el resultado no cambia.' },
+      { type: 'choice', q: '¿Qué propiedad se usa en <b>9 + 6 = 6 + 9</b>?', options: ['Conmutativa', 'Asociativa'], a: 0,
+        why: 'Hemos cambiado el orden de los sumandos.' },
+      { type: 'choice', q: '¿Qué propiedad se usa en <b>(2 + 4) + 1 = 2 + (4 + 1)</b>?', options: ['Conmutativa', 'Asociativa'], a: 1,
+        why: 'Hemos cambiado la forma de agrupar los sumandos. Las dos sumas dan 7.' },
+      { type: 'input', q: 'Completa: <b>(12 + 8) + 5 = 12 + (8 + ___)</b>', a: 5,
+        why: 'Propiedad <b>asociativa</b>: al agrupar de otra forma, el resultado no cambia (25 = 25).' },
+      { type: 'input', q: 'Calcula <b>15 + 7 + 5</b> de la forma que te resulte más fácil.', a: 27,
+        why: 'Juntamos primero 15 + 5 = 20, y después 20 + 7 = 27.' },
+      { type: 'choice', q: '¿Cuánto es <b>32 + 14 + 18</b>? <i>Pista: junta primero 32 + 18.</i>', options: ['54', '64', '74'], a: 1,
+        why: '32 + 18 = 50 y después 50 + 14 = 64.' },
+      { type: 'choice', q: 'Completa: <b>49 + 7 = 7 + ___</b>', options: ['42', '49', '56'], a: 1,
+        why: 'Por la propiedad conmutativa, 7 + 49 también es 56.' }
+    ]
+  },
+  {
+    id: 'est', icon: 'target', c: '#0e8b68', t: '#dcf6ec', title: 'Estimar sumas y restas',
+    desc: 'Redondea a decenas, centenas o millares y calcula de cabeza.',
+    items: [
+      { type: 'choice', q: 'Estima <b>21 + 34</b> redondeando a las <b>decenas</b>.', options: ['50', '55', '60'], a: 0,
+        why: '21 → 20 y 34 → 30. Después: 20 + 30 = 50.' },
+      { type: 'choice', q: 'Estima <b>89 − 47</b> a las <b>decenas</b>.', options: ['30', '40', '50'], a: 1,
+        why: '89 → 90 y 47 → 50. Después: 90 − 50 = 40.' },
+      { type: 'choice', q: 'Estima <b>305 + 142</b> a las <b>centenas</b>.', options: ['400', '450', '500'], a: 0,
+        why: '305 → 300 y 142 → 100. Después: 300 + 100 = 400.' },
+      { type: 'choice', q: 'Estima <b>278 + 494</b> a las <b>centenas</b>.', options: ['700', '800', '900'], a: 1,
+        why: '278 → 300 y 494 → 500. Después: 300 + 500 = 800.' },
+      { type: 'choice', q: 'Estima <b>855 − 196</b> a las <b>centenas</b>.', options: ['600', '700', '800'], a: 1,
+        why: '855 → 900 y 196 → 200. Después: 900 − 200 = 700.' },
+      { type: 'choice', q: 'Estima <b>1.325 + 2.560</b> a los <b>millares</b>.', options: ['3.000', '4.000', '5.000'], a: 1,
+        why: '1.325 → 1.000 y 2.560 → 3.000. Después: 1.000 + 3.000 = 4.000.' },
+      { type: 'choice', q: 'Estima <b>3.886 + 9.098</b> a los <b>millares</b>.', options: ['12.000', '13.000', '14.000'], a: 1,
+        why: '3.886 → 4.000 y 9.098 → 9.000. Después: 4.000 + 9.000 = 13.000.' },
+      { type: 'input', q: 'Estima <b>8.409 − 5.158</b> a los <b>millares</b>. ¿Cuánto da?', a: 3000,
+        why: '8.409 → 8.000 y 5.158 → 5.000. Después: 8.000 − 5.000 = 3.000.' },
+      { type: 'input', q: 'Estima <b>7.706 − 2.515</b> a los <b>millares</b>.', a: 5000,
+        why: '7.706 → 8.000 y 2.515 → 3.000. Después: 8.000 − 3.000 = 5.000.' },
+      { type: 'input', q: 'Estima <b>15 + 234 + 67</b> redondeando a las <b>centenas</b>.', a: 300,
+        why: '15 → 0, 234 → 200 y 67 → 100. Después: 0 + 200 + 100 = 300.' }
+    ]
+  },
+  {
+    id: 'comb', icon: 'layers', c: '#ff6b4f', t: '#ffe3dc', title: 'Operaciones combinadas',
+    desc: 'Primero los paréntesis y después, de izquierda a derecha.',
+    items: [
+      { type: 'input', q: '<b>7 + 3 − 5</b> = ?', a: 5, why: 'De izquierda a derecha: 7 + 3 = 10 y después 10 − 5 = 5.' },
+      { type: 'input', q: '<b>12 + 15 − 21</b> = ?', a: 6, why: '12 + 15 = 27 y después 27 − 21 = 6.' },
+      { type: 'input', q: '<b>(7 + 10) − 15</b> = ?', a: 2, why: 'Primero el paréntesis: 17 − 15 = 2.' },
+      { type: 'input', q: '<b>45 − (25 + 8)</b> = ?', a: 12, why: 'Primero 25 + 8 = 33. Después 45 − 33 = 12.' },
+      { type: 'input', q: '<b>(36 − 29) + 14</b> = ?', a: 21, why: 'Primero 36 − 29 = 7. Después 7 + 14 = 21.' },
+      { type: 'choice', q: '<b>9 − (1 + 6)</b> = ?', options: ['2', '14', '8'], a: 0,
+        why: 'Primero 1 + 6 = 7. Después 9 − 7 = 2.' },
+      { type: 'choice', q: 'En <b>20 − (5 + 12)</b>, ¿qué se hace primero?',
+        options: ['Restar 20 − 5', 'Calcular lo que está entre paréntesis', 'Da igual, siempre es lo mismo'], a: 1,
+        why: 'Los paréntesis van primero: 5 + 12 = 17 y después 20 − 17 = 3.' },
+      { type: 'input', q: '<b>(8 + 1) − (6 − 3)</b> = ?', a: 6, why: 'Primero los dos paréntesis: 9 − 3 = 6.' },
+      { type: 'input', q: '<b>8 + 4 − 2 − 7</b> = ?', a: 3, why: '8 + 4 = 12, después 12 − 2 = 10 y por último 10 − 7 = 3.' },
+      { type: 'input', q: '<b>9 − (9 − 4) + 1</b> = ?', a: 5, why: 'Primero 9 − 4 = 5. Después 9 − 5 = 4 y 4 + 1 = 5.' },
+      { type: 'input', q: 'Una bicicleta cuesta <b>364 €</b>. La rebajan <b>59 €</b> y después <b>15 €</b> más. ¿Cuánto cuesta ahora?', unit: '€', a: 290,
+        why: '364 − 59 − 15 = 290 €.' }
+    ]
+  },
+  {
+    id: 'prob', icon: 'help', c: '#e0559a', t: '#ffe6f2', title: '¿Qué dato falta?',
+    desc: 'Antes de resolver un problema, piensa qué necesitas saber.',
+    items: [
+      { type: 'choice', q: 'Diana ha subido <b>26 escalones</b> para llegar al primer piso de un edificio que tiene dos pisos. ¿Cuántos le faltan para llegar al segundo piso?',
+        options: ['El número de pisos del edificio', 'El número total de escalones del edificio', 'El color de la puerta'], a: 1,
+        why: 'Si sabemos el total de escalones, restamos los 26 que ya ha subido.' },
+      { type: 'choice', q: '<b>Adriana</b> y <b>Armando</b> nacieron el 9 de junio. ¿Qué dato necesitas para saber la diferencia de edad?',
+        options: ['La hora a la que nació cada uno', 'El año en que nació cada uno', 'De qué color son sus zapatos'], a: 1,
+        why: 'Si sabemos el año de nacimiento de cada uno, podemos calcular la diferencia de edad.' },
+      { type: 'choice', q: 'En un teatro, las butacas se reparten en <b>dos plantas</b>. En la primera planta, que tiene 83 butacas, hay 69 ocupadas, y en la segunda hay 64 ocupadas. ¿Qué dato necesitas para saber cuántas butacas están vacías en todo el teatro?',
+        options: ['Las butacas que hay en la segunda planta', 'Las butacas que hay en la tercera planta', 'De qué color son las butacas'], a: 0,
+        why: 'El teatro solo tiene dos plantas, así que la tercera no sirve. Necesitamos cuántas butacas tiene la segunda planta.' },
+      { type: 'choice', q: 'Salgo de casa a las <b>8:30</b>, camino 10 minutos hasta el autobús y el viaje dura 15 minutos. ¿Qué necesito saber para calcular a qué hora llego al colegio?',
+        options: ['La hora a la que salgo de casa', 'El día de la semana', 'El color del autobús'], a: 0,
+        why: 'Desde la hora de salida sumamos los 10 minutos andando y los 15 minutos de autobús.' }
+    ]
+  },
+  {
+    id: 'graf', icon: 'chart', c: '#e0a000', t: '#fff2c2', on: '#1b2b57', title: 'Gráficos de líneas',
+    desc: 'Toca los puntos del gráfico y responde a las preguntas.',
+    items: [
+      { type: 'choice', q: '¿Cuál era la altura del <b>aguacate</b> a los <b>20 días</b>?', options: ['26 cm', '32 cm', '40 cm'], a: 1,
+        why: 'En el día 20, el punto del aguacate está en 32 cm.', visual: drawChart },
+      { type: 'input', q: '¿Y la altura de la <b>tomatera</b> a los <b>5 días</b>?', unit: 'cm', a: 4,
+        why: 'En el día 5, la tomatera mide 4 cm.', visual: drawChart },
+      { type: 'choice', q: '¿Qué planta era más alta a los <b>25 días</b>?', options: ['Aguacate', 'Tomatera', 'Eran igual de altas'], a: 0,
+        why: 'A los 25 días, el aguacate mide 40 cm y la tomatera 31 cm.', visual: drawChart },
+      { type: 'input', q: '¿Cuánto más alto era el aguacate que la tomatera a los 25 días?', unit: 'cm', a: 9,
+        why: 'El aguacate mide 40 cm y la tomatera 31 cm. 40 − 31 = 9 cm.', visual: drawChart },
+      { type: 'input', q: '¿Cuánto aumentó la altura del <b>aguacate</b> entre el <b>día 15</b> y el <b>día 25</b>?', unit: 'cm', a: 23,
+        why: 'A los 15 días mide 17 cm y a los 25 días, 40 cm. 40 − 17 = 23 cm.', visual: drawChart },
+      { type: 'input', q: '¿Y cuánto aumentó la altura de la <b>tomatera</b> entre el <b>día 10</b> y el <b>día 20</b>?', unit: 'cm', a: 15,
+        why: 'A los 10 días mide 11 cm y a los 20 días, 26 cm. 26 − 11 = 15 cm.', visual: drawChart },
+      { type: 'choice', q: '¿Qué planta creció más <b>antes de los 10 días</b>?', options: ['Aguacate', 'Tomatera', 'Crecieron igual'], a: 1,
+        why: 'A los 10 días, la tomatera mide 11 cm y el aguacate 8 cm.', visual: drawChart },
+      { type: 'choice', q: '¿Después de cuántos días fue más alta la <b>tomatera</b> que el <b>aguacate</b>?', options: ['5 días', '10 días', '20 días'], a: 0,
+        why: 'A los 5 días la tomatera mide 4 cm y el aguacate 2 cm.', visual: drawChart }
+    ]
+  },
+  { id: 'cam', icon: 'route', c: '#1fb58a', t: '#dcf6ec', title: 'Caminos que suman', desc: 'Recorre el tablero desde el inicio hasta la meta sumando exactamente 100.', special: 'caminos' },
+  {
+    id: 'granja', icon: 'sprout', c: '#f08a24', t: '#ffedd9', title: 'Presupuesto del viaje',
+    desc: 'Calcula cuánto cuesta el viaje y los talleres para cada alumno.',
+    context: `
+      <div class="ctx">
+        <p class="kicker">Datos del viaje</p>
+        <ul class="ctx-list">
+          <li><span>Autobús, ida y vuelta</span><b>18 € por persona</b></li>
+          <li><span>Alojamiento en pensión completa</span><b>67 € por persona y noche</b></li>
+          <li><span>Taller: Haz tu propio pan</span><b>4 € por persona</b></li>
+          <li><span>Taller: Alimenta a los animales</span><b>6 € por persona</b></li>
+          <li><span>Taller: Cosecha la huerta</span><b>9 € por persona</b></li>
+          <li><span>Taller: Moldea tu cerámica</span><b>6 € por persona</b></li>
+        </ul>
+        <p class="ink2">Cada alumno puede apuntarse a los talleres que quiera.</p>
+      </div>`,
+    items: [
+      { type: 'input', q: 'Tres alumnos van en <b>autobús, ida y vuelta</b>. ¿Cuánto pagan entre los tres?', unit: '€', a: 54,
+        why: '3 alumnos × 18 € = 54 €.' },
+      { type: 'input', q: 'El grupo se queda <b>2 noches</b> con pensión completa. ¿Cuánto cuesta el alojamiento de <b>un alumno</b>?', unit: '€', a: 134,
+        why: 'Dos noches: 67 € + 67 € = 134 €.' },
+      { type: 'input', q: 'Un alumno hace el viaje de <b>una noche</b>: autobús de ida y vuelta y alojamiento. ¿Cuánto paga en total?', unit: '€', a: 85,
+        why: 'Autobús 18 € + alojamiento 67 € = 85 €.' },
+      { type: 'choice', q: '¿Cuál es el <b>taller más caro</b> por persona?', options: ['Haz tu propio pan', 'Cosecha la huerta', 'Alimenta a los animales'], a: 1,
+        why: 'Cosechar la huerta cuesta 9 €, más que los otros talleres.' },
+      { type: 'input', q: 'Un alumno se apunta a los <b>cuatro talleres</b>. ¿Cuánto paga por todos?', unit: '€', a: 25,
+        why: 'Pan 4 € + animales 6 € + huerta 9 € + cerámica 6 € = 25 €.' },
+      { type: 'input', q: 'Un alumno hace el viaje de <b>una noche</b> y se apunta a <b>los cuatro talleres</b>. ¿Cuánto gasta en total?', unit: '€', a: 110,
+        why: '85 € del viaje + 25 € de los talleres = 110 €.' },
+      { type: 'choice', q: 'Un alumno tiene <b>100 €</b>. ¿Le alcanza para el viaje de una noche y los cuatro talleres?', options: ['Sí', 'No'], a: 1,
+        why: 'Gasta 110 €, así que le faltarían 10 €.' }
+    ]
+  }
+];
+
+/* ---------- Layout pieces ---------- *//* ---------- Layout pieces ---------- *//* ---------- Layout pieces ---------- */
+function cardHTML(a, i, best) {
+  const b = best[a.id] || {};
+  const status = b.lvl != null ? gradePill(GRADES[b.lvl]) : '<span class="muted">Pendiente</span>';
+  const meta = a.items ? `${a.items.length} preguntas` : '1 tablero';
+  return `
+    <button class="card-act" style="--c:${a.c};--tint:${a.t}" data-go="${a.id}">
+      <span class="art">${SCENES[a.id]()}</span>
+      <span class="body">
+        <span class="badge">${pad(i + 1)}</span>
+        <span class="card-t">${a.title}</span>
+        <span class="card-d">${a.desc}</span>
+        <span class="card-f"><span>${meta}</span>${status}</span>
+      </span>
+    </button>`;
+}
+
+function progressSegs(n, i) {
+  let s = '';
+  for (let k = 0; k < n; k++) s += `<i class="${k < i ? 'on' : k === i ? 'cur' : ''}"></i>`;
+  return `<div class="segs" style="--n:${n}" aria-hidden="true">${s}</div>`;
+}
+
+function shell(act, kicker, body) {
+  return `
+    <div class="quiz" style="--c:${act.c};--tint:${act.t};--on:${act.on || '#ffffff'}">
+      <div class="crumb"><button class="btn" data-go="home">${ico('arrowLeft')}<span>Inicio</span></button></div>
+      <section class="banner">
+        <div>
+          <p class="kicker">${kicker}</p>
+          <h2>${act.title}</h2>
+          <p class="desc">${act.desc}</p>
+        </div>
+        <div class="banner-art">${SCENES[act.id]()}</div>
+      </section>
+      ${body}
+    </div>`;
+}
+
+/* ---------- Quiz engine ---------- */
+let S = { st: {}, kb: false, buf: '', i: 0, items: [], good: 0 };
+
+function startQuiz(act, items, key, title) {
+  S = { act, key, title, items, i: 0, good: 0, res: [], st: {}, kb: false, buf: '' };
+  renderQ();
+}
+
+function renderQ() {
+  const it = S.items[S.i], n = S.items.length;
+  S.st = { attempts: 0, done: false };
+  S.kb = it.type === 'input';
+  S.buf = '';
+  const kicker = `Actividad ${pad(ACTS.findIndex(a => a.id === S.key) + 1)}`;
+  $('#app').innerHTML = shell(S.act, kicker, `
+    ${progressSegs(n, S.i)}
+    <section class="sheet">
+      <div class="sheet-top">
+        <span class="pill-s">Pregunta ${S.i + 1} de ${n}</span>
+      </div>
+      ${S.act.context || ''}
+      <div id="visual"></div>
+      <h3 class="q">${it.q}</h3>
+      <div id="ans"></div>
+      <div id="fb" class="fb" hidden></div>
+      <div class="actions"><span></span><button class="btn primary" id="nextBtn" disabled><span>Siguiente</span>${ico('arrowRight')}</button></div>
+    </section>`);
+  if (it.visual) it.visual($('#visual'));
+  if (it.type === 'choice') renderChoices(it); else renderKeypad(it);
+  $('#nextBtn').onclick = nextQ;
+  window.scrollTo({ top: 0 });
+}
+
+function renderChoices(it) {
+  if (!it._o) it._o = shuffle(it.options.map((t, k) => ({ t, ok: k === it.a })));
+  const wrap = document.createElement('div');
+  wrap.className = 'opts';
+  it._o.forEach((o, idx) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = `<span class="letter">${'ABC'[idx]}</span><span>${o.t}</span>`;
+    b._o = o;
+    b.onclick = () => pickChoice(b, o, it);
+    wrap.appendChild(b);
+  });
+  $('#ans').appendChild(wrap);
+}
+
+function pickChoice(btn, o, it) {
+  if (S.st.done) return;
+  if (o.ok) { btn.classList.add('right'); return finish(true, it, ''); }
+  S.st.attempts++;
+  btn.classList.add('wrong', 'shake');
+  btn.disabled = true;
+  if (S.st.attempts >= 2) {
+    const right = [...document.querySelectorAll('#ans .opt')].find(b => b._o.ok);
+    right.classList.add('right');
+    return finish(false, it, right.querySelector('span:last-child').textContent);
+  }
+  showFb('warn', '<b>Casi.</b> Piénsalo otra vez.', 'Tienes otra oportunidad.', 'info');
+}
+
+function renderKeypad(it) {
+  $('#ans').innerHTML = `
+    <div class="answer" id="entry"><span id="disp"></span>${it.unit ? `<span class="unit">${it.unit}</span>` : ''}</div>
+    <div class="keypad">
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(d => `<button class="key" data-k="${d}" aria-label="${d}">${d}</button>`).join('')}
+      <button class="key fn" data-k="back" aria-label="Borrar">${ico('delete')}</button>
+      <button class="key" data-k="0" aria-label="0">0</button>
+      <button class="key ok" data-k="ok" aria-label="Comprobar">${ico('check')}</button>
+    </div>`;
+  updateDisp();
+}
+
+function updateDisp() {
+  const d = document.getElementById('disp');
+  if (!d) return;
+  d.innerHTML = S.buf === '' ? '<span class="ph">–</span>' : fmt(parseInt(S.buf, 10));
+}
+
+function pressKey(k) {
+  if (!S.kb || S.st.done || !document.getElementById('ans')) return;
+  const it = S.items[S.i];
+  if (k === 'back') {
+    S.buf = S.buf.slice(0, -1);
+  } else if (k === 'ok') {
+    if (S.buf === '') return;
+    const v = parseInt(S.buf, 10);
+    if (v === it.a) return finish(true, it, '');
+    S.st.attempts++;
+    S.buf = '';
+    updateDisp();
+    if (S.st.attempts >= 2) return finish(false, it, fmt(it.a) + (it.unit ? ' ' + it.unit : ''));
+    const e = document.getElementById('entry');
+    e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake');
+    showFb('warn', '<b>Casi.</b> Revisa los cálculos paso a paso.', 'Tienes otra oportunidad.', 'info');
+    return;
+  } else if (/^\d$/.test(k) && S.buf.length < 7) {
+    S.buf += k;
+  }
+  updateDisp();
+}
+
+function showFb(cls, title, sub, icon) {
+  const fb = document.getElementById('fb');
+  if (!fb) return;
+  fb.hidden = false;
+  fb.className = 'fb ' + cls;
+  fb.innerHTML = `<span class="fi">${ico(icon || (cls === 'bad' ? 'x' : 'check'))}</span><div>${title}${sub ? `<span class="why">${sub}</span>` : ''}</div>`;
+}
+
+function finish(ok, it, shown) {
+  S.st.done = true;
+  S.kb = false;
+  const first = ok && S.st.attempts === 0;
+  if (first) S.good++;
+  S.res[S.i] = first;
+  if (first) showFb('ok', '<b>¡Muy bien!</b>', it.why, 'check');
+  else if (ok) showFb('ok', '<b>Lo has conseguido.</b>', it.why, 'check');
+  else showFb('bad', `La respuesta correcta es <b>${shown}</b>.`, it.why, 'x');
+  document.querySelectorAll('#ans button').forEach(b => { b.disabled = true; });
+  const nb = $('#nextBtn');
+  nb.disabled = false;
+  nb.innerHTML = S.i === S.items.length - 1 ? `<span>Ver resultado</span>${ico('flag')}` : `<span>Siguiente</span>${ico('arrowRight')}`;
+}
+
+function nextQ() {
+  S.i++;
+  if (S.i >= S.items.length) return renderEnd();
+  renderQ();
+}
+
+/* ---------- Result of an activity (grade only, no counts) ---------- */
+function showResult(pct) {
+  recordActivity(S.key, pct);
+  const g = gradeOf(pct);
+  const st = unitStatus();
+  const msgs = [
+    'Repasa lo que ha fallado y vuelve a intentarlo.',
+    'Vas por buen camino. Repasa lo que ha fallado.',
+    'Buen trabajo. Repasa los detalles que han fallado.',
+    'Muy buen trabajo. Casi lo tienes dominado.',
+    '¡Excelente! Dominas este contenido.'
+  ];
+  const unitBlock = summaryHTML();
+  $('#app').innerHTML = shell(S.act, 'Calificación', `
+    <section class="sheet result">
+      ${gradePill(g, true)}
+      <p class="ink2">${msgs[g.key]}</p>
+      ${gradeScale(g.key)}
+      ${unitBlock}
+      <div class="actions center" style="gap:.8rem">
+        <button class="btn" data-go="${S.key}">${ico('refresh')}<span>Repetir</span></button>
+        <button class="btn primary" data-go="home"><span>Volver al inicio</span>${ico('arrowRight')}</button>
+      </div>
+    </section>`);
+  window.scrollTo({ top: 0 });
+}
+
+function renderEnd() {
+  showResult(Math.round(S.good / S.items.length * 100));
+}
+
+/* ---------- Unit summary: each activity's grade and the global grade ---------- */
+function summaryHTML() {
+  const best = bestAll();
+  const st = unitStatus();
+  const rows = ACTS.filter(a => UNIT.includes(a.id)).map((a, i) => {
+    const b = best[a.id] || {};
+    const pill = b.lvl != null ? gradePill(GRADES[b.lvl]) : '<span class="muted">Pendiente</span>';
+    return `<li class="blk"><span class="blk-name">${pad(i + 1)} · ${a.title}</span>${pill}</li>`;
+  }).join('');
+  const head = st.complete
+    ? `<div class="unit-final"><p class="kicker">Nota global de la unidad</p>${gradePill(st.grade, true)}<p class="ink2">Media de las ${UNIT.length} actividades.</p></div>`
+    : `<div class="unit-final"><p class="kicker">Nota global de la unidad</p><p class="ink2">Pendiente: faltan ${UNIT.length - st.done} de ${UNIT.length} actividades.</p></div>`;
+  return `${head}<h3 class="blk-h">Nota de cada actividad</h3><ul class="blocks">${rows}</ul>`;
+}
+
+function renderUnit() {
+  S.kb = false;
+  $('#app').innerHTML = `
+    <div class="crumb"><button class="btn" data-go="home">${ico('arrowLeft')}<span>Inicio</span></button></div>
+    <section class="sheet result">
+      <p class="kicker">Unidad 2 · Sumas, restas y operaciones combinadas</p>
+      ${summaryHTML()}
+    </section>`;
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- Home ---------- */
+function renderHome() {
+  S.kb = false;
+  const best = bestAll();
+  const st = unitStatus();
+  $('#app').innerHTML = `
+    <section class="hero">
+      <div>
+        <span class="chip">Unidad 2 · Octubre de 2026</span>
+        <h1>Sumas, restas y operaciones combinadas</h1>
+        <p class="lead">Practica las siete actividades. Al terminarlas, verás la nota de la unidad.</p>
+        <div class="hero-stats">
+          <span class="bubble">${st.done} de ${UNIT.length} actividades</span>
+          <button class="bubble" data-go="unit">${st.complete ? 'Ver nota global: ' + st.grade.label : 'Ver notas de la unidad'}</button>
+        </div>
+        <p class="hero-meta">CEIP Buenaventura González · 4.º de Primaria</p>
+        <p class="ink2" style="margin-top:.2rem">Elaborado por Mati, Raquel y Ángel</p>
+      </div>
+    </section>
+
+    <div class="sec-h"><h2>Actividades</h2><span class="muted">Toca una para empezar</span></div>
+    <section class="cards">
+      ${ACTS.map((a, i) => cardHTML(a, i, best)).join('')}
+    </section>`;
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- Caminos que suman: one 6 × 6 board, move to a neighbour, sum exactly 100 ---------- */
+const CAMINOS = [
+  [1, 5, 7, 4, 3, 2],
+  [4, 6, 3, 2, 2, 3],
+  [3, 7, 1, 6, 5, 4],
+  [7, 2, 5, 7, 6, 1],
+  [1, 5, 3, 5, 6, 4],
+  [4, 6, 2, 7, 1, 3]
+];
+const CAM = { path: [[0, 0]] };
+
+function renderCaminos() {
+  S.kb = false;
+  S.act = ACTS.find(a => a.id === 'cam'); S.key = 'cam'; S.title = S.act.title;
+  CAM.path = [[0, 0]];
+  const body = `
+    <section class="sheet">
+      <p class="ink2" style="margin-bottom:1rem">Empieza en la casilla de inicio y llega a la meta. Puedes avanzar a una casilla vecina (arriba, abajo, izquierda o derecha) sin pasar dos veces por la misma. El camino tiene que sumar <b>exactamente 100</b>.</p>
+      <div class="sumline">
+        <div class="sumbig" id="sumBig"></div>
+        <div class="sum-msg" id="sumMsg"></div>
+      </div>
+      <div class="board" id="board"></div>
+      <div class="actions">
+        <button class="btn" data-cam="undo">${ico('undo')}<span>Deshacer</span></button>
+      </div>
+    </section>`;
+  $('#app').innerHTML = shell(S.act, 'Actividad 06', body);
+  paintCaminos();
+}
+
+function paintCaminos() {
+  const board = document.getElementById('board');
+  if (!board) return;
+  const N = CAMINOS.length, g = CAMINOS;
+  const sum = CAM.path.reduce((a, [r, c]) => a + g[r][c], 0);
+  const last = CAM.path[CAM.path.length - 1];
+  const end = last[0] === N - 1 && last[1] === N - 1;
+  if (end && sum === 100) { showResult(100); return; }
+  const inPath = (r, c) => CAM.path.some(([a, b]) => a === r && b === c);
+  const nexts = end ? [] : [[last[0] - 1, last[1]], [last[0] + 1, last[1]], [last[0], last[1] - 1], [last[0], last[1] + 1]]
+    .filter(([r, c]) => r >= 0 && c >= 0 && r < N && c < N && !inPath(r, c));
+  const isNext = (r, c) => nexts.some(([a, b]) => a === r && b === c);
+  let cells = '';
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < N; c++) {
+      const nx = isNext(r, c);
+      const isStart = r === 0 && c === 0, isEnd = r === N - 1 && c === N - 1;
+      const cls = ['cell', inPath(r, c) ? 'in' : '', isStart ? 'start' : '', isEnd ? 'end' : '', nx ? 'next' : ''].join(' ');
+      const tag = isStart ? '<span class="tag">Inicio</span>' : isEnd ? '<span class="tag">Meta</span>' : '';
+      cells += `<button class="${cls}" data-cell="${r},${c}" ${nx ? '' : 'disabled'} aria-label="Casilla ${g[r][c]}">${g[r][c]}${tag}</button>`;
+    }
+  }
+  board.innerHTML = cells;
+  document.getElementById('sumBig').innerHTML = `${sum} <span>/ 100</span>`;
+  let msg;
+  if (end) msg = sum < 100 ? `Has llegado a la meta, pero te faltan ${100 - sum}. Deshaz algún paso.` : 'Te has pasado de 100. Deshaz algún paso.';
+  else if (sum > 100) msg = 'Vas por encima de 100. Deshaz algún paso.';
+  else msg = 'Sigue avanzando.';
+  document.getElementById('sumMsg').innerHTML = msg;
+}
+
+/* ---------- Navigation and input (one delegated listener) ---------- */
+function go(key) {
+  S.kb = false;
+  if (key === 'home') return renderHome();
+  if (key === 'unit') return renderUnit();
+  const act = ACTS.find(a => a.id === key);
+  if (!act) return renderHome();
+  if (act.special === 'caminos') return renderCaminos();
+  startQuiz(act, shuffle(act.items.map(it => ({ ...it, blk: act.id }))), act.id, act.title);
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-go],[data-k],[data-cell],[data-cam],[data-size]');
+  if (!el) return;
+  const d = el.dataset;
+  if (d.go) return go(d.go);
+  if (d.k) return pressKey(d.k);
+  if (d.size) return setSize(fontPx + Number(d.size));
+  if (d.cell) { const [r, c] = d.cell.split(',').map(Number); CAM.path.push([r, c]); return paintCaminos(); }
+  if (d.cam === 'undo') { if (CAM.path.length > 1) CAM.path.pop(); return paintCaminos(); }
+});
+
+document.addEventListener('keydown', e => {
+  if (!S.kb) return;
+  if (/^\d$/.test(e.key)) pressKey(e.key);
+  else if (e.key === 'Backspace') { e.preventDefault(); pressKey('back'); }
+  else if (e.key === 'Enter') pressKey('ok');
+});
+
+renderHome();
+</script>
